@@ -20,9 +20,9 @@ public class ClientManager {
         clients.put(client.getUserId(), client);
     }
 
-    public Client searchClientById(String userId) throws Exception {
+    public Client searchClientById(String userId) throws ClientNotFoundException {
         if (!clients.containsKey(userId)) {
-            throw new Exception();
+            throw new ClientNotFoundException();
         }
         return clients.get(userId);
     }
