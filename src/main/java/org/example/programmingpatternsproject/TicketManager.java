@@ -3,17 +3,18 @@ package org.example.programmingpatternsproject;
 import java.util.ArrayList;
 
 public class TicketManager {
-    private static ArrayList<Ticket> tickets;
+    private static TicketManager ticketManager;
+    private ArrayList<Ticket> tickets;
 
     private TicketManager() {
-
+        tickets = new ArrayList<>();
     }
 
-    public static ArrayList<Ticket> getTickets() {
-        if (tickets == null) {
-            tickets = new ArrayList<>();
+    public static TicketManager getTickets() {
+        if (ticketManager == null) {
+            ticketManager = new TicketManager();
         }
-        return tickets;
+        return ticketManager;
     }
 
     public void addTicket(Ticket ticket) {

@@ -3,17 +3,18 @@ package org.example.programmingpatternsproject;
 import java.util.HashMap;
 
 public class ClientManager {
-    private static HashMap<String, Client> clients;
+    private static ClientManager clientManager;
+    private HashMap<String, Client> clients;
 
     private ClientManager() {
-
+        clients = new HashMap<>();
     }
 
-    public static HashMap<String, Client> getClients() {
-        if (clients == null) {
-            clients = new HashMap<>();
+    public static ClientManager getClients() {
+        if (clientManager == null) {
+            clientManager = new ClientManager();
         }
-        return clients;
+        return clientManager;
     }
 
     public void addClient(Client client) {
