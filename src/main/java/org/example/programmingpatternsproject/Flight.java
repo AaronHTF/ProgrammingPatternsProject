@@ -9,6 +9,19 @@ public class Flight {
         this.destination = destination;
     }
 
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        } else {
+            Flight flight = (Flight) object;
+            return (source.equals(flight.getSource()) &&
+                    destination.equals(flight.getDestination()));
+        }
+    }
+
     public String getSource() {
         return source;
     }
