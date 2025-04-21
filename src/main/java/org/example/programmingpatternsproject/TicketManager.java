@@ -17,6 +17,11 @@ public class TicketManager {
         return ticketManager;
     }
 
+    public void loadTicketsFromDatabase() {
+        Database db = Database.getInstance();
+        db.selectTickets();
+    }
+
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);
     }
@@ -34,6 +39,12 @@ public class TicketManager {
             if (tickets.get(i).equals(ticket)) {
                 tickets.get(i).setStatus("Cancelled");
             }
+        }
+    }
+
+    public void displayTickets() {
+        for (Ticket ticket : tickets) {
+            System.out.println(ticket);
         }
     }
 }

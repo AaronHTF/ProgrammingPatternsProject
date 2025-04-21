@@ -91,7 +91,7 @@ public class Database {
         }
     }
 
-    public void insertFlights(Flight flight) {
+    public void insertFlight(Flight flight) {
         String sql = "INSERT INTO flights(flightId, source, destination) VALUES (?, ?, ?)";
 
         try {
@@ -105,6 +105,31 @@ public class Database {
             pstmt.close();
             conn.close();
             System.out.println("Flight inserted successfully");
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertTicket(Ticket ticket) {
+        String sql = "INSERT INTO tickets(ticketId, clientId, flightId, date, classOfService, status) VALUES (?, ?, ?, ?, ?, ?)";
+        TicketManager ticketManager = TicketManager.getTickets();
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, ticket.getTicketId());
+            pstmt.setString(2, ticket.getUserId());
+            pstmt.setString(3, ticket.getFlightId());
+            pstmt.setString(4, ticket.getDate());
+            pstmt.setString(5, ticket.getClassOfService());
+            pstmt.setString(6, ticket.getStatus());
+            pstmt.execute();
+            ticketManager.addTicket(ticket);
+
+            pstmt.close();
+            conn.close();
+            System.out.println("Ticket inserted successfully");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -173,5 +198,30 @@ public class Database {
             System.out.println(e.getMessage());
         }
         return flights;
+    }
+
+    public void selectTickets() {
+        String sql = "SELECT * FROM tickets";
+
+        TicketManager ticketManager = TicketManager.getTickets();
+
+        try {
+            Connection conn = getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                int ticketId = rs.getInt("ticketId");
+                String clientId = rs.getString("clientId");
+                String flightId = rs.getString("flightId");
+                String date = rs.getString("date");
+                String classOfService = rs.getString("classOfService");
+                String status = rs.getString("status");
+                ticketManager.addTicket(new Ticket(ticketId, clientId, flightId, date, classOfService, status));
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

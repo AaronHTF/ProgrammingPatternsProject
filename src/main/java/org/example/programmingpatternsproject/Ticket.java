@@ -4,7 +4,7 @@ import javax.print.attribute.standard.JobOriginatingUserName;
 import java.util.Random;
 
 public class Ticket {
-    private int tickerId;
+    private int ticketId;
     private String userId;
     private String flightId;
     private String date;
@@ -13,12 +13,33 @@ public class Ticket {
 
     public Ticket(String userId, String flightId, String date, String classOfService) {
         Random random = new Random();
-        tickerId = random.nextInt(100000, 1000000);
+        ticketId = random.nextInt(100000, 1000000);
         this.userId = userId;
         this.flightId = flightId;
         this.date = date;
         this.classOfService = classOfService;
         status = "Sent";
+    }
+
+    public Ticket(int ticketId, String userId, String flightId, String date, String classOfService, String status) {
+        this.ticketId = ticketId;
+        this.userId = userId;
+        this.flightId = flightId;
+        this.date = date;
+        this.classOfService = classOfService;
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId=" + ticketId +
+                ", userId='" + userId + '\'' +
+                ", flightId='" + flightId + '\'' +
+                ", date='" + date + '\'' +
+                ", classOfService='" + classOfService + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 
     public boolean equals(Object object) {
@@ -37,12 +58,12 @@ public class Ticket {
         }
     }
 
-    public int getTickerId() {
-        return tickerId;
+    public int getTicketId() {
+        return ticketId;
     }
 
-    public void setTickerId(int tickerId) {
-        this.tickerId = tickerId;
+    public void setTicketId(int ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getUserId() {
