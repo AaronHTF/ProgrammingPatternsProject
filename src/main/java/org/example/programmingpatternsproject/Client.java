@@ -8,6 +8,10 @@ public class Client extends User {
         this.clientName = clientName;
     }
 
+    public String toString() {
+        return String.format("Client ID: %s, client name: %s, client password: %s\n", getUserId(), clientName, getPassword());
+    }
+
     public String getClientName() {
         return clientName;
     }

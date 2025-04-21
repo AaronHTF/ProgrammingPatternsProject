@@ -18,6 +18,8 @@ public class ClientManager {
     }
 
     public void addClient(Client client) {
+        Database db = Database.getInstance();
+        db.insertClient(client);
         clients.put(client.getUserId(), client);
     }
 

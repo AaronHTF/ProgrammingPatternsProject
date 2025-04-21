@@ -7,7 +7,7 @@ public class User {
 
     public User(String password) {
         this.password = password;
-        userId = String.format("%06d", nextId++);
+        userId = String.format("%d", nextId++);
     }
 
     public boolean verifyLogin(String inputPassword) {
