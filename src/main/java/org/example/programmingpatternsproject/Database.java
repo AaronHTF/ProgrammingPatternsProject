@@ -3,6 +3,7 @@ package org.example.programmingpatternsproject;
 import com.google.gson.Gson;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
     private static Database dbObject;
@@ -90,6 +91,26 @@ public class Database {
         }
     }
 
+    public void insertFlights(Flight flight) {
+        String sql = "INSERT INTO flights(flightId, source, destination) VALUES (?, ?, ?)";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, flight.getFlightId());
+            pstmt.setString(2, flight.getSource());
+            pstmt.setString(3, flight.getDestination());
+            pstmt.execute();
+
+            pstmt.close();
+            conn.close();
+            System.out.println("Flight inserted successfully");
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void deleteClient(String id) {
         String sql = "DELETE FROM clients WHERE clientId = ?";
 
@@ -130,5 +151,27 @@ public class Database {
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public ArrayList<Flight> selectFlights() {
+        String sql = "SELECT * FROM flights";
+        ArrayList<Flight> flights = new ArrayList<>();
+
+        try {
+            Connection conn = getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                String flightId = rs.getString("flightId");
+                String source = rs.getString("source");
+                String destination = rs.getString("destination");
+                flights.add(new Flight(flightId, source, destination));
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return flights;
     }
 }

@@ -1,5 +1,7 @@
 package org.example.programmingpatternsproject;
 
+import java.util.ArrayList;
+
 public class DbTests {
     public static void main(String[] args) {
         Database db = Database.getInstance();
@@ -13,11 +15,26 @@ public class DbTests {
 //        db.addColumn("clients", "password", "TEXT");
 //        db.addColumn("clients", "clientName", "TEXT");
 
+        //create flights table
+//        db.createNewTable("flights", "flightId", "TEXT");
+//        db.addColumn("flights", "source", "TEXT");
+//        db.addColumn("flights", "destination", "TEXT");
+
+        //create tickets table
+        db.createNewTable("tickets", "ticketId", "INT");
+        db.addColumn("tickets", "clientId", "TEXT");
+        db.addColumn("tickets", "flightId", "TEXT");
+        db.addColumn("tickets", "date", "TEXT");
+        db.addColumn("tickets", "classOfService", "TEXT");
+        db.addColumn("tickets", "status", "TEXT");
+
         //add new client to the clients table
-//        clientManager.addClient(new Client("Darrick Marquez", "password"));
-//        clientManager.addClient(new Client("Maricela Castillo", "password"));
 //        db.insertClient(new Client("Darrick Marquez", "password"));
 //        db.insertClient(new Client("Maricela Castillo", "password"));
+
+        //add new flights to the flights table
+//        db.insertFlights(new Flight("439875", "Montreal", "New York"));
+//        db.insertFlights(new Flight("928345", "New York", "Montreal"));
 
         //delete client
 //        db.deleteClient("1000001");
@@ -25,5 +42,11 @@ public class DbTests {
 
         //display clients with the client manager
         clientManager.displayClients();
+
+        //display flights
+        ArrayList<Flight> flights = db.selectFlights();
+        for (Flight flight : flights) {
+            System.out.println(flight);
+        }
     }
 }

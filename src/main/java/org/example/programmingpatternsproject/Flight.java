@@ -1,10 +1,12 @@
 package org.example.programmingpatternsproject;
 
 public class Flight {
+    private String flightId;
     private String source;
     private String destination;
 
-    public Flight(String source, String destination) {
+    public Flight(String flightId, String source, String destination) {
+        this.flightId = flightId;
         this.source = source;
         this.destination = destination;
     }
@@ -17,9 +19,27 @@ public class Flight {
             return false;
         } else {
             Flight flight = (Flight) object;
-            return (source.equals(flight.getSource()) &&
+            return (flightId.equals(flight.getFlightId()) &&
+                    source.equals(flight.getSource()) &&
                     destination.equals(flight.getDestination()));
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "flightId='" + flightId + '\'' +
+                ", source='" + source + '\'' +
+                ", destination='" + destination + '\'' +
+                '}';
+    }
+
+    public String getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
     }
 
     public String getSource() {

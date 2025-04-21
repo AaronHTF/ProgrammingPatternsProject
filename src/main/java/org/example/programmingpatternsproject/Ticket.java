@@ -1,17 +1,21 @@
 package org.example.programmingpatternsproject;
 
 import javax.print.attribute.standard.JobOriginatingUserName;
+import java.util.Random;
 
 public class Ticket {
+    private int tickerId;
     private String userId;
-    private Flight flight;
+    private String flightId;
     private String date;
     private String classOfService;
     private String status;
 
-    public Ticket(String userId, Flight flight, String date, String classOfService) {
+    public Ticket(String userId, String flightId, String date, String classOfService) {
+        Random random = new Random();
+        tickerId = random.nextInt(100000, 1000000);
         this.userId = userId;
-        this.flight = flight;
+        this.flightId = flightId;
         this.date = date;
         this.classOfService = classOfService;
         status = "Sent";
@@ -26,11 +30,19 @@ public class Ticket {
         } else {
             Ticket ticket = (Ticket) object;
             return (userId.equals(ticket.getUserId()) &&
-                    flight.equals(ticket.getFlight()) &&
+                    flightId.equals(ticket.getFlightId()) &&
                     date.equals(ticket.getDate()) &&
                     classOfService.equals(ticket.getClassOfService()) &&
                     status.equals(ticket.status));
         }
+    }
+
+    public int getTickerId() {
+        return tickerId;
+    }
+
+    public void setTickerId(int tickerId) {
+        this.tickerId = tickerId;
     }
 
     public String getUserId() {
@@ -41,12 +53,12 @@ public class Ticket {
         this.userId = userId;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public String getFlightId() {
+        return flightId;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
     }
 
     public String getDate() {
