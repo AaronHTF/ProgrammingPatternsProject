@@ -32,20 +32,17 @@ public class Database {
 
     public void createNewTable(String tableName, String primaryKeyColumnName, String primaryKeyColumnType) {
         String sql = """
-                CREATE TABLE IF NOT EXISTS ?(
-                ? ? PRIMARY KEY
+                CREATE TABLE IF NOT EXISTS %s(
+                %s %s PRIMARY KEY
                 )
-                """;
+                """.formatted(tableName, primaryKeyColumnName, primaryKeyColumnType);
 
         try {
             Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, tableName);
-            pstmt.setString(2, primaryKeyColumnName);
-            pstmt.setString(3, primaryKeyColumnType);
-            pstmt.execute();
+            Statement stmt = conn.createStatement();
+            stmt.execute(sql);
 
-            pstmt.close();
+            stmt.close();
             conn.close();
             System.out.println("Table created successfully!");
         }
@@ -55,17 +52,14 @@ public class Database {
     }
 
     public void addColumn(String tableName, String columnName, String columnType) {
-        String sql = "AlTER TABLE ? ADD COLUMN ? ?";
+        String sql = "AlTER TABLE %s ADD COLUMN %s %s".formatted(tableName, columnName, columnType);
 
         try {
             Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, tableName);
-            pstmt.setString(2, columnName);
-            pstmt.setString(3, columnType);
-            pstmt.execute();
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
 
-            pstmt.close();
+            stmt.close();
             conn.close();
             System.out.println("Column inserted successfully");
         }
@@ -75,7 +69,8 @@ public class Database {
     }
 
     public void insertClient(Client client) {
-        String sql = "INSERT INTO clients(userId, password, clientName) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO clients(clientId, password, clientName) VALUES (?, ?, ?)";
+        ClientManager clientManager = ClientManager.getClients();
 
         try {
             Connection conn = getConnection();
@@ -84,6 +79,7 @@ public class Database {
             pstmt.setString(2, client.getPassword());
             pstmt.setString(3, client.getClientName());
             pstmt.execute();
+            clientManager.addClient(client);
 
             pstmt.close();
             conn.close();
@@ -94,18 +90,30 @@ public class Database {
         }
     }
 
-    public void selectJson() {
-        String sql = """
-                SELECT json_object(
-                'userId', userId,
-                'password', password,
-                'clientName', clientName
-                ) AS json_result
-                FROM clients;
-                """;
+    public void deleteClient(String id) {
+        String sql = "DELETE FROM clients WHERE clientId = ?";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            int rowsDeleted = pstmt.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Client with ID " + id + " was deleted successfully.");
+            } else {
+                System.out.println("No client with the provided ID exists");
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void selectClients() {
+        String sql = "SELECT * FROM clients";
 
         ClientManager clientManager = ClientManager.getClients();
-        Gson gson = new Gson();
 
         try {
             Connection conn = getConnection();
@@ -113,9 +121,10 @@ public class Database {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                String jsonResults = rs.getString("json_result");
-                Client client = gson.fromJson(jsonResults, Client.class);
-                clientManager.addClient(client);
+                String clientId = rs.getString("clientId");
+                String password = rs.getString("password");
+                String clientName = rs.getString("clientName");
+                clientManager.addClient(new Client(clientId, password, clientName));
             }
         }
         catch (SQLException e) {

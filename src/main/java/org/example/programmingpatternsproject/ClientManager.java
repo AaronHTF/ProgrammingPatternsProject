@@ -17,9 +17,12 @@ public class ClientManager {
         return clientManager;
     }
 
-    public void addClient(Client client) {
+    public void loadClientsFromDatabase() {
         Database db = Database.getInstance();
-        db.insertClient(client);
+        db.selectClients();
+    }
+
+    public void addClient(Client client) {
         clients.put(client.getUserId(), client);
     }
 
@@ -28,5 +31,12 @@ public class ClientManager {
             throw new ClientNotFoundException();
         }
         return clients.get(userId);
+    }
+
+    public void displayClients() {
+        for (int i = 1; i <= clients.size(); i++) {
+            String id = "100000" + i;
+            System.out.println(clients.get(id));
+        }
     }
 }
