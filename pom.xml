@@ -72,7 +72,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.example.programmingpatternsproject/org.example.programmingpatternsproject.HelloApplication
+                                org.example.programmingpatternsproject/org.example.programmingpatternsproject.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

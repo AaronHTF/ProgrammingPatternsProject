@@ -15,9 +15,11 @@ public class LoginController implements Initializable {
     @FXML
     public Button createAccountButton;
 
+    ClientManager clientManager = ClientManager.getClients();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        clientManager.loadClientsFromDatabase();
     }
 
     @FXML

@@ -33,6 +33,17 @@ public class ClientManager {
         return clients.get(userId);
     }
 
+    public String nextClientId() {
+        int max = 0;
+        for (String key : clients.keySet()) {
+            int id = Integer.parseInt(key);
+            if (id > max) {
+                max = id;
+            }
+        }
+        return "" + ++max;
+    }
+
     public void displayClients() {
         for (int i = 1; i <= clients.size(); i++) {
             String id = "100000" + i;

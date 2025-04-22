@@ -33,6 +33,7 @@ public class DbTests {
         //add new client to the clients table
 //        db.insertClient(new Client("Darrick Marquez", "password"));
 //        db.insertClient(new Client("Maricela Castillo", "password"));
+//        db.insertClient(new Client("Caleb Mcdaniel", "password"));
 
         //add new flights to the flights table
 //        db.insertFlight(new Flight("439875", "Montreal", "New York"));

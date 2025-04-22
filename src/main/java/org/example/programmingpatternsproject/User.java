@@ -3,11 +3,11 @@ package org.example.programmingpatternsproject;
 public class User {
     private String userId;
     private String password;
-    private static int nextId = 1000001;
 
     public User(String password) {
+        ClientManager clientManager = ClientManager.getClients();
         this.password = password;
-        userId = String.format("%d", nextId++);
+        userId = clientManager.nextClientId();
     }
 
     public User(String userId, String password) {
