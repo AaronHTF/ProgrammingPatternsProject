@@ -20,7 +20,7 @@ public class CreateAccountController {
     @FXML
     private Button createAccountButton;
 
-    Database db = Database.getInstance();
+    ClientManager clientManager = ClientManager.getClients();
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
@@ -44,7 +44,7 @@ public class CreateAccountController {
                     throw new PasswordNotMatchingException();
                 }
                 Client client = new Client(username, password);
-                db.insertClient(client);
+                clientManager.addClient(client);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("Account Created!");
                 alert.setContentText("Your account has been created!\n" +

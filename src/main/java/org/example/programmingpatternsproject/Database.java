@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Database {
     private static Database dbObject;
@@ -71,7 +72,6 @@ public class Database {
 
     public void insertClient(Client client) {
         String sql = "INSERT INTO clients(clientId, password, clientName) VALUES (?, ?, ?)";
-        ClientManager clientManager = ClientManager.getClients();
 
         try {
             Connection conn = getConnection();
@@ -80,7 +80,6 @@ public class Database {
             pstmt.setString(2, client.getPassword());
             pstmt.setString(3, client.getClientName());
             pstmt.execute();
-            clientManager.addClient(client);
 
             pstmt.close();
             conn.close();
@@ -156,37 +155,34 @@ public class Database {
         }
     }
 
-    public void selectClients() {
+    public HashMap<String, Client> selectClients() {
         String sql = "SELECT * FROM clients";
-
-        ClientManager clientManager = ClientManager.getClients();
-
+        HashMap<String, Client> clients = new HashMap<>();
         try {
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-
             while (rs.next()) {
                 String clientId = rs.getString("clientId");
                 String password = rs.getString("password");
                 String clientName = rs.getString("clientName");
-                clientManager.addClient(new Client(clientId, password, clientName));
+                Client client = new Client(clientId, password, clientName);
+                clients.put(clientId, client);
             }
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return clients;
     }
 
     public ArrayList<Flight> selectFlights() {
         String sql = "SELECT * FROM flights";
         ArrayList<Flight> flights = new ArrayList<>();
-
         try {
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-
             while (rs.next()) {
                 String flightId = rs.getString("flightId");
                 String source = rs.getString("source");
@@ -200,11 +196,9 @@ public class Database {
         return flights;
     }
 
-    public void selectTickets() {
+    public ArrayList<Ticket> selectTickets() {
         String sql = "SELECT * FROM tickets";
-
-        TicketManager ticketManager = TicketManager.getTickets();
-
+        ArrayList<Ticket> tickets = new ArrayList<>();
         try {
             Connection conn = getConnection();
             Statement stmt = conn.createStatement();
@@ -217,11 +211,13 @@ public class Database {
                 String date = rs.getString("date");
                 String classOfService = rs.getString("classOfService");
                 String status = rs.getString("status");
-                ticketManager.addTicket(new Ticket(ticketId, clientId, flightId, date, classOfService, status));
+                Ticket ticket = new Ticket(ticketId, clientId, flightId, date, classOfService, status);
+                tickets.add(ticket);
             }
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return tickets;
     }
 }

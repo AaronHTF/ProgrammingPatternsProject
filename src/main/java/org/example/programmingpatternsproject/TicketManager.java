@@ -19,10 +19,14 @@ public class TicketManager {
 
     public void loadTicketsFromDatabase() {
         Database db = Database.getInstance();
-        db.selectTickets();
+        ArrayList<Ticket> ticketFromDatabase;
+        ticketFromDatabase = db.selectTickets();
+        tickets.addAll(ticketFromDatabase);
     }
 
     public void addTicket(Ticket ticket) {
+        Database db = Database.getInstance();
+        db.insertTicket(ticket);
         tickets.add(ticket);
     }
 

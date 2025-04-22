@@ -19,10 +19,16 @@ public class ClientManager {
 
     public void loadClientsFromDatabase() {
         Database db = Database.getInstance();
-        db.selectClients();
+        HashMap<String, Client> clientsFromDatabase = new HashMap<>();
+        clientsFromDatabase = db.selectClients();
+        for (Client client : clientsFromDatabase.values()) {
+            clients.put(client.getUserId(), client);
+        }
     }
 
     public void addClient(Client client) {
+        Database db = Database.getInstance();
+        db.insertClient(client);
         clients.put(client.getUserId(), client);
     }
 
