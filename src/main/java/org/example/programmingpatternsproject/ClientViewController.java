@@ -1,29 +1,71 @@
 package org.example.programmingpatternsproject;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class ClientViewController {
+public class ClientViewController implements Initializable {
     @FXML
     private Button logoutButton;
     @FXML
     private Label usernameLabel;
     @FXML
     private Label userIdLabel;
-    public Client sessionClient;
+    @FXML
+    private TableView<TicketInformation> bookedFlightsTable;
+    @FXML
+    private TableColumn<TicketInformation, Integer> ticketIdColumn;
+    @FXML
+    private TableColumn<TicketInformation, String> sourceColumn;
+    @FXML
+    private TableColumn<TicketInformation, String> destinationColumn;
+    @FXML
+    private TableColumn<TicketInformation, String> dateColumn;
+    @FXML
+    private TableColumn<TicketInformation, String> classOfServiceColumn;
+    @FXML
+    private TableColumn<TicketInformation, String> statusColumn;
+
+    Client sessionClient;
+    TicketManager ticketManager = TicketManager.getTickets();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ticketIdColumn.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
+        sourceColumn.setCellValueFactory(new PropertyValueFactory<>("source"));
+        destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        classOfServiceColumn.setCellValueFactory(new PropertyValueFactory<>("classOfService"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
 
     public void loadClient(Client client) {
         sessionClient = client;
         usernameLabel.setText(usernameLabel.getText() + client.getClientName());
         userIdLabel.setText(userIdLabel.getText() + client.getUserId());
+
+        ArrayList<Ticket> clientTickets = sessionClient.getTickets();
+        ArrayList<TicketInformation> ticketsInformation = new ArrayList<>();
+
+        ObservableList<TicketInformation> tickets;
+        for (Ticket ticket : clientTickets) {
+            ticketsInformation.add(new TicketInformation(ticket, sessionClient));
+        }
+        tickets = FXCollections.observableArrayList(ticketsInformation);
+        bookedFlightsTable.setItems(tickets);
     }
 
     @FXML

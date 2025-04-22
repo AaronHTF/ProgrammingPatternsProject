@@ -24,6 +24,16 @@ public class TicketManager {
         tickets.addAll(ticketFromDatabase);
     }
 
+    public ArrayList<Ticket> searchTicketForClient(Client client) {
+        ArrayList<Ticket> clientTicket = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            if (ticket.getUserId().equals(client.getUserId())) {
+                clientTicket.add(ticket);
+            }
+        }
+        return clientTicket;
+    }
+
     public void addTicket(Ticket ticket) {
         Database db = Database.getInstance();
         db.insertTicket(ticket);

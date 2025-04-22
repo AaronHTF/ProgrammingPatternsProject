@@ -1,5 +1,7 @@
 package org.example.programmingpatternsproject;
 
+import java.util.ArrayList;
+
 public class Client extends User {
     private String clientName;
 
@@ -11,6 +13,11 @@ public class Client extends User {
     public Client(String userId, String password, String clientName) {
         super(userId, password);
         this.clientName = clientName;
+    }
+
+    public ArrayList<Ticket> getTickets() {
+        TicketManager ticketManager = TicketManager.getTickets();
+        return ticketManager.searchTicketForClient(this);
     }
 
     public String toString() {

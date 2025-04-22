@@ -8,8 +8,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    TicketManager ticketManager = TicketManager.getTickets();
     @Override
     public void start(Stage stage) throws IOException {
+        ticketManager.loadTicketsFromDatabase();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Airline System Login");
