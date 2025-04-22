@@ -65,6 +65,8 @@ public class LoginController implements Initializable {
                     stage.setTitle("Airline Management System");
                     stage.setScene(scene);
                     stage.show();
+                    Stage thisStage = (Stage) loginButton.getScene().getWindow();
+                    thisStage.close();
                 }
             }
             catch (ClientNotFoundException e) {

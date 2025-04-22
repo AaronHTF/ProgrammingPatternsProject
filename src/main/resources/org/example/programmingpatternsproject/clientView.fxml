@@ -14,12 +14,12 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
-      <Button fx:id="logoutButton" layoutX="696.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="77.0" text="Logout" />
+      <Button fx:id="logoutButton" layoutX="696.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="30.0" prefWidth="77.0" text="Logout" />
       <Button fx:id="changePasswordButton" layoutX="644.0" layoutY="437.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="129.0" text="Change Password" />
       <Button fx:id="cancelFlightButton" layoutX="653.0" layoutY="189.0" mnemonicParsing="false" text="Cancel Flight" />
       <Button fx:id="changeDateButton" layoutX="652.0" layoutY="228.0" mnemonicParsing="false" text="Change Date" />
       <Button fx:id="bookFilghtButton" layoutX="164.0" layoutY="125.0" mnemonicParsing="false" text="Book a flight" />
       <Label fx:id="usernameLabel" layoutX="33.0" layoutY="36.0" text="Username: " />
-      <Label fx:id="userIdLabel" layoutX="33.0" layoutY="62.0" text="User ID:" />
+      <Label fx:id="userIdLabel" layoutX="33.0" layoutY="62.0" text="User ID: " />
    </children>
 </AnchorPane>
