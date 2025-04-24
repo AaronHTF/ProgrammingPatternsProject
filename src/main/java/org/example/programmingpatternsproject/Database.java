@@ -1,7 +1,5 @@
 package org.example.programmingpatternsproject;
 
-import com.google.gson.Gson;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,7 +110,6 @@ public class Database {
 
     public void insertTicket(Ticket ticket) {
         String sql = "INSERT INTO tickets(ticketId, clientId, flightId, date, classOfService, status) VALUES (?, ?, ?, ?, ?, ?)";
-        TicketManager ticketManager = TicketManager.getTickets();
 
         try {
             Connection conn = getConnection();
@@ -124,7 +121,6 @@ public class Database {
             pstmt.setString(5, ticket.getClassOfService());
             pstmt.setString(6, ticket.getStatus());
             pstmt.execute();
-            ticketManager.addTicket(ticket);
 
             pstmt.close();
             conn.close();

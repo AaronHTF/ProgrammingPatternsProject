@@ -1,7 +1,5 @@
 package org.example.programmingpatternsproject;
 
-import javax.print.attribute.standard.JobOriginatingUserName;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Ticket {

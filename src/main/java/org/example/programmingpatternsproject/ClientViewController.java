@@ -1,6 +1,5 @@
 package org.example.programmingpatternsproject;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -38,9 +36,12 @@ public class ClientViewController implements Initializable {
     private TableColumn<TicketInformation, String> classOfServiceColumn;
     @FXML
     private TableColumn<TicketInformation, String> statusColumn;
+    @FXML
+    private Button bookFlightButton;
 
     Client sessionClient;
-    TicketManager ticketManager = TicketManager.getTickets();
+    ObservableList<TicketInformation> tickets;
+    ArrayList<TicketInformation> ticketsInformation;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,16 +57,35 @@ public class ClientViewController implements Initializable {
         sessionClient = client;
         usernameLabel.setText(usernameLabel.getText() + client.getClientName());
         userIdLabel.setText(userIdLabel.getText() + client.getUserId());
+        loadTableContent();
+    }
 
+    public void loadTableContent() {
+        bookedFlightsTable.setPlaceholder(new Label("You do not have any flights booked currently"));
         ArrayList<Ticket> clientTickets = sessionClient.getTickets();
-        ArrayList<TicketInformation> ticketsInformation = new ArrayList<>();
-
-        ObservableList<TicketInformation> tickets;
+        ticketsInformation = new ArrayList<>();
         for (Ticket ticket : clientTickets) {
             ticketsInformation.add(new TicketInformation(ticket, sessionClient));
         }
+        setTableContent();
+    }
+
+    public void setTableContent() {
         tickets = FXCollections.observableArrayList(ticketsInformation);
         bookedFlightsTable.setItems(tickets);
+    }
+
+    @FXML
+    public void handleBookFlightButtonAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("bookFlightView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fxmlLoader.load());
+        BookFlightViewController bookFlightViewController = fxmlLoader.getController();
+        bookFlightViewController.loadClient(sessionClient);
+        bookFlightViewController.setParentController(this);
+        stage.setTitle("Book a Flight");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -89,6 +109,5 @@ public class ClientViewController implements Initializable {
                 }
             }
         });
-
     }
 }
