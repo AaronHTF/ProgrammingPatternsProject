@@ -1,18 +1,16 @@
 package org.example.programmingpatternsproject;
 
 public class Admin extends User {
-    private String adminName;
+    private static Admin admin;
 
-    public Admin(String adminName, String password) {
-        super(password);
-        this.adminName = adminName;
+    public Admin() {
+        super("1000000", "admin");
     }
 
-    public String getAdminName() {
-        return adminName;
-    }
-
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public static Admin getAdmin() {
+        if (admin == null) {
+            admin = new Admin();
+        }
+        return admin;
     }
 }

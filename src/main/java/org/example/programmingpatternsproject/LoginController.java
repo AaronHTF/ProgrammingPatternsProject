@@ -51,20 +51,27 @@ public class LoginController implements Initializable {
             alert.showAndWait();
         } else {
             try {
-                Client client = clientManager.searchClientById(userId);
-                if (!client.getPassword().equals(password)) {
-                    throw new WrongPasswordException();
+                if (userId.equals("1000000")) {
+                    Admin admin = Admin.getAdmin();
+                    if (!password.equals(admin.getPassword())) {
+                        throw new WrongPasswordException();
+                    }
                 } else {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clientView.fxml"));
-                    Stage stage = new Stage();
-                    Scene scene = new Scene(fxmlLoader.load());
-                    ClientViewController clientViewController = fxmlLoader.getController();
-                    clientViewController.loadClient(client);
-                    stage.setTitle("Airline Management System");
-                    stage.setScene(scene);
-                    stage.show();
-                    Stage thisStage = (Stage) loginButton.getScene().getWindow();
-                    thisStage.close();
+                    Client client = clientManager.searchClientById(userId);
+                    if (!client.getPassword().equals(password)) {
+                        throw new WrongPasswordException();
+                    } else {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clientView.fxml"));
+                        Stage stage = new Stage();
+                        Scene scene = new Scene(fxmlLoader.load());
+                        ClientViewController clientViewController = fxmlLoader.getController();
+                        clientViewController.loadClient(client);
+                        stage.setTitle("Airline Management System");
+                        stage.setScene(scene);
+                        stage.show();
+                        Stage thisStage = (Stage) loginButton.getScene().getWindow();
+                        thisStage.close();
+                    }
                 }
             }
             catch (ClientNotFoundException e) {
