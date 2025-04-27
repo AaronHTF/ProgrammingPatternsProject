@@ -151,6 +151,20 @@ public class Database {
         }
     }
 
+    public void deleteTicket(int id) {
+        String sql = "DELETE FROM tickets WHERE ticketId = ?";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public HashMap<String, Client> selectClients() {
         String sql = "SELECT * FROM clients";
         HashMap<String, Client> clients = new HashMap<>();

@@ -8,6 +8,7 @@ public class ClientManager {
 
     private ClientManager() {
         clients = new HashMap<>();
+        loadClientsFromDatabase();
     }
 
     public static ClientManager getClients() {

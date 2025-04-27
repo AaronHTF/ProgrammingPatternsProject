@@ -42,6 +42,12 @@ public class TicketManager {
         tickets.add(ticket);
     }
 
+    public void deleteTicket(Ticket ticket) {
+        Database db = Database.getInstance();
+        db.deleteTicket(ticket.getTicketId());
+        tickets.remove(ticket);
+    }
+
     public void confirmTicket(Ticket ticket) {
         for (int i = 0; i < tickets.size(); i++) {
             if (tickets.get(i).equals(ticket)) {
