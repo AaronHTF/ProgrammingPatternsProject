@@ -1,6 +1,5 @@
 package org.example.programmingpatternsproject;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -23,13 +22,13 @@ public class CreateAccountController {
     ClientManager clientManager = ClientManager.getClients();
 
     @FXML
-    public void handleCloseButtonAction(ActionEvent event) {
+    public void handleCloseButtonAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    public void handleCreateAccountButtonAction(ActionEvent event) {
+    public void handleCreateAccountButtonAction() {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
         String confirmPassword = confirmPasswordTextField.getText();

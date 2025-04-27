@@ -45,7 +45,7 @@ public class BookFlightViewController implements Initializable {
     }
 
     @FXML
-    public void handleConfirmButtonAction(ActionEvent event) {
+    public void handleConfirmButtonAction() {
         if (source == null || destination == null || classOfService == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Please fill all the boxes before confirming");
@@ -78,7 +78,7 @@ public class BookFlightViewController implements Initializable {
     }
 
     @FXML
-    public void handleCancelButtonAction(ActionEvent event) {
+    public void handleCancelButtonAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }

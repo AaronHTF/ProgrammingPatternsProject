@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,8 +31,8 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void handleCreateAccountButtonAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createAccount.fxml"));
+    public void handleCreateAccountButtonAction() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createAccountView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Create Account");
@@ -42,7 +41,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void handleLoginButtonAction(ActionEvent event) throws IOException {
+    public void handleLoginButtonAction() throws IOException {
         String userId = userIdTextField.getText();
         String password = passwordTextField.getText();
 

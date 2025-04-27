@@ -44,7 +44,6 @@ public class Database {
 
             stmt.close();
             conn.close();
-            System.out.println("Table created successfully!");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -61,7 +60,6 @@ public class Database {
 
             stmt.close();
             conn.close();
-            System.out.println("Column inserted successfully");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -81,7 +79,6 @@ public class Database {
 
             pstmt.close();
             conn.close();
-            System.out.println("Client inserted successfully");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -101,7 +98,6 @@ public class Database {
 
             pstmt.close();
             conn.close();
-            System.out.println("Flight inserted successfully");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -124,7 +120,6 @@ public class Database {
 
             pstmt.close();
             conn.close();
-            System.out.println("Ticket inserted successfully");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -138,13 +133,7 @@ public class Database {
             Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
-            int rowsDeleted = pstmt.executeUpdate();
-
-            if (rowsDeleted > 0) {
-                System.out.println("Client with ID " + id + " was deleted successfully.");
-            } else {
-                System.out.println("No client with the provided ID exists");
-            }
+            pstmt.executeUpdate();
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -250,5 +239,25 @@ public class Database {
             System.out.println(e.getMessage());
         }
         return tickets;
+    }
+
+    public void updateTicket(int ticketId, String clientId, String flightId, String date, String classOfService, String status) {
+        String sql = "UPDATE tickets SET ticketId=?, clientId=?, flightId=?, date=?, classOfService=?, status=? WHERE ticketId=?";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, ticketId);
+            pstmt.setString(2, clientId);
+            pstmt.setString(3, flightId);
+            pstmt.setString(4, date);
+            pstmt.setString(5, classOfService);
+            pstmt.setString(6, status);
+            pstmt.setInt(7, ticketId);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

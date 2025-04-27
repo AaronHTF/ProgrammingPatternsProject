@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class ClientViewController implements Initializable {
     }
 
     @FXML
-    public void handleBookFlightButtonAction(ActionEvent event) throws IOException {
+    public void handleBookFlightButtonAction() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("bookFlightView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load());
@@ -89,13 +88,55 @@ public class ClientViewController implements Initializable {
     }
 
     @FXML
-    public void handleLogoutButtonAction(ActionEvent event) {
+    public void handleDeleteFlightButtonAction() {
+        if (bookedFlightsTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Please select a flight");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.YES, ButtonType.NO);
+            alert.setHeaderText("Are you sure you want to cancel this flight?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.YES) {
+                    int id = bookedFlightsTable.getSelectionModel().getSelectedItem().getTicketId();
+                    TicketManager ticketManager = TicketManager.getTickets();
+                    ticketManager.deleteTicketById(id);
+                    loadTableContent();
+                }
+            });
+        }
+    }
+
+    @FXML
+    public void handleChangeDateButtonAction() throws IOException {
+        if (bookedFlightsTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Please select a flight");
+            alert.showAndWait();
+        } else {
+            int id = bookedFlightsTable.getSelectionModel().getSelectedItem().getTicketId();
+            TicketManager ticketManager = TicketManager.getTickets();
+            Ticket ticket = ticketManager.searchTicketById(id);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("changeDateView.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(fxmlLoader.load());
+            ChangeDateViewController changeDateViewController = fxmlLoader.getController();
+            changeDateViewController.loadDate(ticket);
+            changeDateViewController.setParentController(this);
+            stage.setTitle("Change date");
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+    @FXML
+    public void handleLogoutButtonAction() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);
         alert.setHeaderText("Logging out");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("loginView.fxml"));
                     Stage stage = new Stage();
                     Scene scene = new Scene(fxmlLoader.load());
                     stage.setTitle("Airline System Login");

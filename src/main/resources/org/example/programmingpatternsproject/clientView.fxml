@@ -20,8 +20,8 @@
       </TableView>
       <Button fx:id="logoutButton" layoutX="696.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="30.0" prefWidth="77.0" text="Logout" />
       <Button fx:id="changePasswordButton" layoutX="644.0" layoutY="437.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="129.0" text="Change Password" />
-      <Button fx:id="cancelFlightButton" layoutX="677.0" layoutY="156.0" mnemonicParsing="false" text="Cancel Flight" />
-      <Button fx:id="changeDateButton" layoutX="677.0" layoutY="196.0" mnemonicParsing="false" text="Change Date" />
+      <Button fx:id="cancelFlightButton" layoutX="677.0" layoutY="156.0" mnemonicParsing="false" onAction="#handleDeleteFlightButtonAction" text="Cancel Flight" />
+      <Button fx:id="changeDateButton" layoutX="677.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleChangeDateButtonAction" text="Change Date" />
       <Button fx:id="bookFlightButton" layoutX="33.0" layoutY="111.0" mnemonicParsing="false" onAction="#handleBookFlightButtonAction" text="Book a flight" />
       <Label fx:id="usernameLabel" layoutX="33.0" layoutY="36.0" text="Username: " />
       <Label fx:id="userIdLabel" layoutX="33.0" layoutY="62.0" text="User ID: " />

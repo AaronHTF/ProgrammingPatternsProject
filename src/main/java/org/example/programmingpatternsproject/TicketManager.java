@@ -42,10 +42,27 @@ public class TicketManager {
         tickets.add(ticket);
     }
 
-    public void deleteTicket(Ticket ticket) {
+    public void deleteTicketById(int id) {
+        Ticket ticket = searchTicketById(id);
         Database db = Database.getInstance();
         db.deleteTicket(ticket.getTicketId());
         tickets.remove(ticket);
+    }
+
+    public void updateTicket(int ticketId, String clientId, String flightId, String date, String classOfService, String status) {
+        Database db = Database.getInstance();
+        Ticket ticket = searchTicketById(ticketId);
+        ticket.setTicketId(ticketId);
+        ticket.setUserId(clientId);
+        ticket.setFlightId(flightId);
+        ticket.setDate(date);
+        ticket.setClassOfService(classOfService);
+        ticket.setStatus(status);
+        db.updateTicket(ticketId, clientId, flightId, date, classOfService, status);
+    }
+
+    public Ticket searchTicketById(int id) {
+        return tickets.stream().filter(ticket -> ticket.getTicketId() == id).findAny().orElse(null);
     }
 
     public void confirmTicket(Ticket ticket) {
@@ -74,6 +91,14 @@ public class TicketManager {
 
     public List<Ticket> filterByFlight(Flight flight) {
         return tickets.stream().filter(ticket -> ticket.getSource().equals(flight.getSource()) && ticket.getDestination().equals(flight.getDestination())).toList();
+    }
+
+    public List<Ticket> filterBySource(Flight flight) {
+        return tickets.stream().filter(ticket -> ticket.getSource().equals(flight.getSource())).toList();
+    }
+
+    public List<Ticket> filterByDestination(Flight flight) {
+        return tickets.stream().filter(ticket -> ticket.getDestination().equals(flight.getDestination())).toList();
     }
 
     public void sortByDate() {
