@@ -72,6 +72,10 @@ public class TicketManager {
         return tickets.stream().filter(ticket -> ticket.getClassOfService().equals(classOfService)).toList();
     }
 
+    public List<Ticket> filterByFlight(Flight flight) {
+        return tickets.stream().filter(ticket -> ticket.getSource().equals(flight.getSource()) && ticket.getDestination().equals(flight.getDestination())).toList();
+    }
+
     public void sortByDate() {
         tickets.sort((t1, t2) -> t1.getDateInDateFormat().compareTo(t2.getDateInDateFormat()));
     }

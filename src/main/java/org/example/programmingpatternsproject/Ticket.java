@@ -34,6 +34,18 @@ public class Ticket {
         return LocalDate.parse(date);
     }
 
+    public String getSource() {
+        Database db = Database.getInstance();
+        Flight flight = db.selectFlight(flightId);
+        return flight.getSource();
+    }
+
+    public String getDestination() {
+        Database db = Database.getInstance();
+        Flight flight = db.selectFlight(flightId);
+        return flight.getDestination();
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +

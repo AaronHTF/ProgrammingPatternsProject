@@ -206,6 +206,27 @@ public class Database {
         return flights;
     }
 
+    public Flight selectFlight(String id) {
+        String sql = "SELECT * FROM flights WHERE flightId = ?";
+        Flight flight = null;
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery(sql);
+            while (rs.next()) {
+                String flightId = rs.getString("flightId");
+                String source = rs.getString("source");
+                String destination = rs.getString("destination");
+                flight = new Flight(flightId, source, destination);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return flight;
+    }
+
     public ArrayList<Ticket> selectTickets() {
         String sql = "SELECT * FROM tickets";
         ArrayList<Ticket> tickets = new ArrayList<>();
