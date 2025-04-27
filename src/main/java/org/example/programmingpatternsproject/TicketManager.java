@@ -1,6 +1,7 @@
 package org.example.programmingpatternsproject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TicketManager {
     private static TicketManager ticketManager;
@@ -8,6 +9,7 @@ public class TicketManager {
 
     private TicketManager() {
         tickets = new ArrayList<>();
+        loadTicketsFromDatabase();
     }
 
     public static TicketManager getTickets() {
@@ -48,17 +50,34 @@ public class TicketManager {
         }
     }
 
-    public void cancel(Ticket ticket) {
+    public void deny(Ticket ticket) {
         for (int i = 0; i < tickets.size(); i++) {
             if (tickets.get(i).equals(ticket)) {
-                tickets.get(i).setStatus("Cancelled");
+                tickets.get(i).setStatus("Denied");
             }
         }
+    }
+
+    public List<Ticket> filterByStatus(String status) {
+        return tickets.stream().filter(ticket -> ticket.getStatus().equals(status)).toList();
+    }
+
+    public List<Ticket> filterByClassOfService(String classOfService) {
+        return tickets.stream().filter(ticket -> ticket.getClassOfService().equals(classOfService)).toList();
+    }
+
+    public void sortByDate() {
+        tickets.sort((t1, t2) -> t1.getDateInDateFormat().compareTo(t2.getDateInDateFormat()));
     }
 
     public void displayTickets() {
         for (Ticket ticket : tickets) {
             System.out.println(ticket);
         }
+    }
+
+    public void reloadTickets() {
+        tickets = new ArrayList<>();
+        loadTicketsFromDatabase();
     }
 }

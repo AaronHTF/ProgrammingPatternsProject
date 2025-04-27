@@ -1,5 +1,6 @@
 package org.example.programmingpatternsproject;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class Ticket {
@@ -27,6 +28,10 @@ public class Ticket {
         this.date = date;
         this.classOfService = classOfService;
         this.status = status;
+    }
+
+    public LocalDate getDateInDateFormat() {
+        return LocalDate.parse(date);
     }
 
     @Override
