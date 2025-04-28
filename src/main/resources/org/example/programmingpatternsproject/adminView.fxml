@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.programmingpatternsproject.AdminViewController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="439.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programmingpatternsproject.AdminViewController">
+   <children>
+      <TableView fx:id="ticketsTable" layoutX="55.0" layoutY="131.0" prefHeight="264.0" prefWidth="673.0">
+        <columns>
+          <TableColumn fx:id="ticketIdColumn" prefWidth="115.0" text="Ticket ID" />
+          <TableColumn fx:id="clientIdColumn" prefWidth="143.0" text="Client ID" />
+            <TableColumn fx:id="flightIdColumn" prefWidth="113.0" text="Flight ID" />
+            <TableColumn fx:id="dateColumn" prefWidth="83.0" text="Date" />
+            <TableColumn fx:id="classOfServiceColumn" prefWidth="120.0" text="Class of Service" />
+            <TableColumn fx:id="statusColumn" prefWidth="98.0" text="Status" />
+        </columns>
+      </TableView>
+      <Button fx:id="logoutButton" layoutX="844.0" layoutY="14.0" mnemonicParsing="false" text="Logout" />
+      <ChoiceBox fx:id="sourceChoiceBox" layoutX="55.0" layoutY="90.0" prefWidth="150.0" />
+      <Label layoutX="55.0" layoutY="66.0" text="Source" />
+      <ChoiceBox fx:id="destinationChoiceBox" layoutX="227.0" layoutY="90.0" prefWidth="150.0" />
+      <Label layoutX="227.0" layoutY="66.0" text="Destination" />
+      <Button fx:id="filterByFlightButton" layoutX="55.0" layoutY="27.0" mnemonicParsing="false" text="Filter by Flight" />
+      <Label layoutX="401.0" layoutY="66.0" text="Filter by Status" />
+      <ChoiceBox fx:id="statusChoiceBox" layoutX="401.0" layoutY="90.0" prefWidth="150.0" />
+      <Label layoutX="578.0" layoutY="66.0" text="Filter by Class" />
+      <ChoiceBox fx:id="classChoiceBox" layoutX="578.0" layoutY="90.0" prefWidth="150.0" />
+      <Button fx:id="sortByDateButton" layoutX="748.0" layoutY="131.0" mnemonicParsing="false" text="Sort by Date" />
+      <Button fx:id="confirmTicket" layoutX="750.0" layoutY="207.0" mnemonicParsing="false" text="Confirm TIcket" />
+      <Button fx:id="denyTicket" layoutX="750.0" layoutY="251.0" mnemonicParsing="false" text="Deny TIcket" />
+      <Button fx:id="resetFiltersButton" layoutX="750.0" layoutY="370.0" mnemonicParsing="false" text="Reset Filters" />
+   </children>
 </AnchorPane>
