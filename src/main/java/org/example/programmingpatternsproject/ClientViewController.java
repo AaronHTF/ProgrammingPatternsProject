@@ -35,8 +35,6 @@ public class ClientViewController implements Initializable {
     private TableColumn<TicketInformation, String> classOfServiceColumn;
     @FXML
     private TableColumn<TicketInformation, String> statusColumn;
-    @FXML
-    private Button bookFlightButton;
 
     Client sessionClient;
     ObservableList<TicketInformation> tickets;
@@ -74,7 +72,6 @@ public class ClientViewController implements Initializable {
         bookedFlightsTable.setItems(tickets);
     }
 
-    @FXML
     public void handleBookFlightButtonAction() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("bookFlightView.fxml"));
         Stage stage = new Stage();
@@ -87,7 +84,6 @@ public class ClientViewController implements Initializable {
         stage.show();
     }
 
-    @FXML
     public void handleDeleteFlightButtonAction() {
         if (bookedFlightsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -107,7 +103,6 @@ public class ClientViewController implements Initializable {
         }
     }
 
-    @FXML
     public void handleChangeDateButtonAction() throws IOException {
         if (bookedFlightsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -140,7 +135,6 @@ public class ClientViewController implements Initializable {
         stage.show();
     }
 
-    @FXML
     public void handleLogoutButtonAction() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);
         alert.setHeaderText("Logging out");

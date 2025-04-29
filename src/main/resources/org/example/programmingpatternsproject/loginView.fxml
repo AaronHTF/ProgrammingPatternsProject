@@ -10,9 +10,11 @@
    <children>
       <TextField fx:id="userIdTextField" layoutX="192.0" layoutY="145.0" prefHeight="25.0" prefWidth="216.0" promptText="User ID" />
       <PasswordField fx:id="passwordTextField" layoutX="192.0" layoutY="184.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
-      <Button fx:id="loginButton" layoutX="253.0" layoutY="227.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="37.0" prefWidth="94.0" text="Login" />
-      <Button fx:id="createAccountButton" layoutX="478.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleCreateAccountButtonAction" prefHeight="25.0" prefWidth="108.0" text="Create Account" />
-      <Label layoutX="226.0" layoutY="55.0" text="Airline Management System" />
-      <Label layoutX="192.0" layoutY="118.0" text="Login:" />
+      <Button fx:id="loginButton" alignment="CENTER" layoutX="233.0" layoutY="227.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="37.0" prefWidth="135.0" text="Login" />
+      <Button fx:id="createAccountButton" layoutX="451.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleCreateAccountButtonAction" prefHeight="25.0" prefWidth="135.0" text="Create Account" />
+      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="172.0" layoutY="72.0" prefHeight="25.0" prefWidth="258.0" text="Airline Management System" AnchorPane.leftAnchor="172.0" AnchorPane.rightAnchor="170.0" />
+      <Label fx:id="loginLabel" layoutX="192.0" layoutY="118.0" text="Login:" />
+      <Button fx:id="englishButton" disable="true" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleEnglishButtonAction" prefHeight="25.0" prefWidth="66.0" text="English" />
+      <Button fx:id="frenchButton" layoutX="89.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleFrenchButtonAction" prefHeight="25.0" prefWidth="66.0" text="French" />
    </children>
 </AnchorPane>

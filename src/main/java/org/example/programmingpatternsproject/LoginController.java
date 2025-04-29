@@ -4,13 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -22,8 +20,18 @@ public class LoginController implements Initializable {
     private TextField userIdTextField;
     @FXML
     private PasswordField passwordTextField;
+    @FXML
+    private Button englishButton;
+    @FXML
+    private Button frenchButton;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label loginLabel;
 
     ClientManager clientManager = ClientManager.getClients();
+    Locale locale;
+    ResourceBundle resourceBundle;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,5 +105,34 @@ public class LoginController implements Initializable {
             }
 
         }
+    }
+
+    public void changeLanguage(Locale locale, ResourceBundle resourceBundle) {
+        frenchButton.setText(resourceBundle.getString("french"));
+        englishButton.setText(resourceBundle.getString("english"));
+        titleLabel.setText(resourceBundle.getString("title"));
+        userIdTextField.setPromptText(resourceBundle.getString("userId"));
+        passwordTextField.setPromptText(resourceBundle.getString("password"));
+        loginButton.setText(resourceBundle.getString("login"));
+        loginLabel.setText(resourceBundle.getString("login"));
+        createAccountButton.setText(resourceBundle.getString("createAccount"));
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.setTitle(resourceBundle.getString("title"));
+    }
+
+    public void handleEnglishButtonAction() {
+        frenchButton.setDisable(false);
+        englishButton.setDisable(true);
+        locale = Locale.of("en", "US");
+        resourceBundle = ResourceBundle.getBundle("Messages", locale);
+        changeLanguage(locale, resourceBundle);
+    }
+
+    public void handleFrenchButtonAction() {
+        englishButton.setDisable(false);
+        frenchButton.setDisable(true);
+        locale = Locale.of("fr", "CA");
+        resourceBundle = ResourceBundle.getBundle("Messages", locale);
+        changeLanguage(locale, resourceBundle);
     }
 }
