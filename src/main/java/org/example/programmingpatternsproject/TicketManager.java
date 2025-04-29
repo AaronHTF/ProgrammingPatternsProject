@@ -66,19 +66,15 @@ public class TicketManager {
     }
 
     public void confirmTicket(Ticket ticket) {
-        for (int i = 0; i < tickets.size(); i++) {
-            if (tickets.get(i).equals(ticket)) {
-                tickets.get(i).setStatus("Confirmed");
-            }
-        }
+        ticket.setStatus("Confirmed");
+        Database db = Database.getInstance();
+        db.updateTicket(ticket.getTicketId(), ticket.getUserId(), ticket.getFlightId(), ticket.getDate(), ticket.getClassOfService(), ticket.getStatus());
     }
 
     public void deny(Ticket ticket) {
-        for (int i = 0; i < tickets.size(); i++) {
-            if (tickets.get(i).equals(ticket)) {
-                tickets.get(i).setStatus("Denied");
-            }
-        }
+        ticket.setStatus("Denied");
+        Database db = Database.getInstance();
+        db.updateTicket(ticket.getTicketId(), ticket.getUserId(), ticket.getFlightId(), ticket.getDate(), ticket.getClassOfService(), ticket.getStatus());
     }
 
     public List<Ticket> filterByStatus(String status) {
@@ -89,16 +85,16 @@ public class TicketManager {
         return tickets.stream().filter(ticket -> ticket.getClassOfService().equals(classOfService)).toList();
     }
 
-    public List<Ticket> filterByFlight(Flight flight) {
-        return tickets.stream().filter(ticket -> ticket.getSource().equals(flight.getSource()) && ticket.getDestination().equals(flight.getDestination())).toList();
+    public List<Ticket> filterByFlight(String source, String destination) {
+        return tickets.stream().filter(ticket -> ticket.getSource().equals(source) && ticket.getDestination().equals(destination)).toList();
     }
 
-    public List<Ticket> filterBySource(Flight flight) {
-        return tickets.stream().filter(ticket -> ticket.getSource().equals(flight.getSource())).toList();
+    public List<Ticket> filterBySource(String source) {
+        return tickets.stream().filter(ticket -> ticket.getSource().equals(source)).toList();
     }
 
-    public List<Ticket> filterByDestination(Flight flight) {
-        return tickets.stream().filter(ticket -> ticket.getDestination().equals(flight.getDestination())).toList();
+    public List<Ticket> filterByDestination(String destination) {
+        return tickets.stream().filter(ticket -> ticket.getDestination().equals(destination)).toList();
     }
 
     public void sortByDate() {
@@ -114,5 +110,9 @@ public class TicketManager {
     public void reloadTickets() {
         tickets = new ArrayList<>();
         loadTicketsFromDatabase();
+    }
+
+    public ArrayList<Ticket> getList() {
+        return tickets;
     }
 }

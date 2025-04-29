@@ -1,6 +1,9 @@
 package org.example.programmingpatternsproject;
 
+import javafx.scene.control.Alert;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Ticket {
@@ -35,15 +38,27 @@ public class Ticket {
     }
 
     public String getSource() {
+        String source = null;
         Database db = Database.getInstance();
-        Flight flight = db.selectFlight(flightId);
-        return flight.getSource();
+        ArrayList<Flight> flights = db.selectFlights();
+        for (Flight flight : flights) {
+            if (flight.getFlightId().equals(flightId)) {
+                source = flight.getSource();
+            }
+        }
+        return source;
     }
 
     public String getDestination() {
+        String destination = null;
         Database db = Database.getInstance();
-        Flight flight = db.selectFlight(flightId);
-        return flight.getDestination();
+        ArrayList<Flight> flights = db.selectFlights();
+        for (Flight flight : flights) {
+            if (flight.getFlightId().equals(flightId)) {
+                destination = flight.getDestination();
+            }
+        }
+        return destination;
     }
 
     @Override

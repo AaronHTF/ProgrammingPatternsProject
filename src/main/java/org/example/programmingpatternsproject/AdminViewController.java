@@ -1,22 +1,24 @@
 package org.example.programmingpatternsproject;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
-public class AdminViewController {
+public class AdminViewController implements Initializable {
     @FXML
     private Button logoutButton;
     @FXML
@@ -41,4 +43,170 @@ public class AdminViewController {
     private ChoiceBox<String> statusChoiceBox;
     @FXML
     private ChoiceBox<String> classChoiceBox;
+
+    TicketManager ticketManager = TicketManager.getTickets();
+    ObservableList<Ticket> tickets;
+    Database db = Database.getInstance();
+    ArrayList<Flight> flights;
+    HashSet<String> sourceList;
+    HashSet<String> destinationList;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ticketIdColumn.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
+        clientIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        flightIdColumn.setCellValueFactory(new PropertyValueFactory<>("flightId"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        classOfServiceColumn.setCellValueFactory(new PropertyValueFactory<>("classOfService"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        setTableContent();
+        loadChoiceBoxes();
+    }
+
+    public void handleFilterByFlightButtonAction() {
+        String source = sourceChoiceBox.getValue();
+        String destination = destinationChoiceBox.getValue();
+        if (source == null && destination == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Please choose a Source and/or Destination");
+            alert.showAndWait();
+        } else if (source == null) {
+            tickets = FXCollections.observableArrayList(ticketManager.filterByDestination(destination));
+            ticketsTable.setItems(tickets);
+        } else if (destination == null) {
+            tickets = FXCollections.observableArrayList(ticketManager.filterBySource(source));
+            ticketsTable.setItems(tickets);
+        } else {
+            tickets = FXCollections.observableArrayList(ticketManager.filterByFlight(source, destination));
+            ticketsTable.setItems(tickets);
+        }
+    }
+
+    public void filterByClassOfService(ActionEvent event) {
+        String classOfService = classChoiceBox.getValue();
+        tickets = FXCollections.observableArrayList(ticketManager.filterByClassOfService(classOfService));
+        ticketsTable.setItems(tickets);
+    }
+
+    public void filterByStatus(ActionEvent event) {
+        String status = statusChoiceBox.getValue();
+        tickets = FXCollections.observableArrayList(ticketManager.filterByStatus(status));
+        ticketsTable.setItems(tickets);
+    }
+
+    public void handleConfirmTicketButtonAction() {
+        if (ticketsTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Please select a ticket");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+            alert.setHeaderText("Confirm this flight ticket?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.YES) {
+                    ticketManager.confirmTicket(ticketsTable.getSelectionModel().getSelectedItem());
+                    ticketManager.reloadTickets();
+                    setTableContent();
+                }
+            });
+        }
+    }
+
+    public void handleDenyTicketButtonAction() {
+        if (ticketsTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Please select a ticket");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
+            alert.setHeaderText("Deny this flight ticket?");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.YES) {
+                    ticketManager.deny(ticketsTable.getSelectionModel().getSelectedItem());
+                    ticketManager.reloadTickets();
+                    setTableContent();
+                }
+            });
+        }
+    }
+
+    public void handleSortByDateButtonAction() {
+        ticketManager.sortByDate();
+        setTableContent();
+    }
+
+    public void handleResetFiltersButtonAction() {
+        ticketManager.reloadTickets();
+        setTableContent();
+    }
+
+    public void chooseSource(ActionEvent event) {
+        String source = sourceChoiceBox.getValue();
+        destinationList = new HashSet<>();
+        for (Flight flight : flights) {
+            if (flight.getSource().equals(source)) {
+                destinationList.add(flight.getDestination());
+            }
+        }
+        destinationChoiceBox.getItems().setAll(destinationList);
+    }
+
+    public void chooseDestination(ActionEvent event) {
+        String destination = destinationChoiceBox.getValue();
+        sourceList = new HashSet<>();
+        for (Flight flight : flights) {
+            if (flight.getDestination().equals(destination)) {
+                sourceList.add(flight.getSource());
+            }
+        }
+        sourceChoiceBox.getItems().setAll(sourceList);
+    }
+
+    public void setTableContent() {
+        tickets = FXCollections.observableArrayList(ticketManager.getList());
+        ticketsTable.setItems(tickets);
+    }
+
+    public void loadChoiceBoxes() {
+        String[] classesOfService = {"Economy", "Premium Economy", "Business", "First Class"};
+        String[] status = {"Sent", "Confirmed", "Denied"};
+        flights = db.selectFlights();
+        sourceList = new HashSet<>();
+        destinationList = new HashSet<>();
+        for (Flight flight : flights) {
+            sourceList.add(flight.getSource());
+            destinationList.add(flight.getDestination());
+        }
+        sourceChoiceBox.getItems().setAll(sourceList);
+        destinationChoiceBox.getItems().setAll(destinationList);
+        classChoiceBox.getItems().setAll(classesOfService);
+        statusChoiceBox.getItems().setAll(status);
+
+        sourceChoiceBox.setOnAction(this::chooseSource);
+        destinationChoiceBox.setOnAction(this::chooseDestination);
+        classChoiceBox.setOnAction(this::filterByClassOfService);
+        statusChoiceBox.setOnAction(this::filterByStatus);
+    }
+
+    public void handleLogoutButtonAction() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Logging out");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("loginView.fxml"));
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(fxmlLoader.load());
+                    stage.setTitle("Airline System Login");
+                    stage.setScene(scene);
+                    stage.show();
+                    Stage thisStage = (Stage) logoutButton.getScene().getWindow();
+                    thisStage.close();
+                }
+                catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        });
+    }
 }

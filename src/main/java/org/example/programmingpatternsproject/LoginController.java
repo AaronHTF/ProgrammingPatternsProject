@@ -55,6 +55,15 @@ public class LoginController implements Initializable {
                     Admin admin = Admin.getAdmin();
                     if (!password.equals(admin.getPassword())) {
                         throw new WrongPasswordException();
+                    } else {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("adminView.fxml"));
+                        Stage stage = new Stage();
+                        Scene scene = new Scene(fxmlLoader.load());
+                        stage.setTitle("Airline Management System");
+                        stage.setScene(scene);
+                        stage.show();
+                        Stage thisStage = (Stage) loginButton.getScene().getWindow();
+                        thisStage.close();
                     }
                 } else {
                     Client client = clientManager.searchClientById(userId);
