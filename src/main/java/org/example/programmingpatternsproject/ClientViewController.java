@@ -129,6 +129,17 @@ public class ClientViewController implements Initializable {
         }
     }
 
+    public void handleChangePasswordButtonAction() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("changePasswordView.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(fxmlLoader.load());
+        ChangePasswordViewController changePasswordViewController = fxmlLoader.getController();
+        changePasswordViewController.getSessionClient(sessionClient);
+        stage.setTitle("Change password");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     @FXML
     public void handleLogoutButtonAction() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);

@@ -40,6 +40,12 @@ public class ClientManager {
         return clients.get(userId);
     }
 
+    public void changeClientPassword(Client client, String newPassword) {
+        client.setPassword(newPassword);
+        Database db = Database.getInstance();
+        db.updateClientPassword(client.getUserId(), newPassword);
+    }
+
     public String nextClientId() {
         int max = 0;
         for (String key : clients.keySet()) {

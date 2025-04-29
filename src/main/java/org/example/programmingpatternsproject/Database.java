@@ -260,4 +260,19 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
+
+    public void updateClientPassword(String clientId, String newPassword) {
+        String sql = "UPDATE clients SET password=? WHERE clientId=?";
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, clientId);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
