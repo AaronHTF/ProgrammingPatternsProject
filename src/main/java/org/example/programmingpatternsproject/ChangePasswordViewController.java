@@ -1,10 +1,7 @@
 package org.example.programmingpatternsproject;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
@@ -19,8 +16,11 @@ public class ChangePasswordViewController {
     private Button cancelButton;
     @FXML
     private Button confirmButton;
+    @FXML
+    private Label changePasswordLabel;
 
     Client sessionClient;
+    Language language = Language.getInstance();
 
     public void handleCancelButtonAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -34,7 +34,7 @@ public class ChangePasswordViewController {
 
         if (currentPassword.trim().isEmpty() || newPassword.trim().isEmpty() || confirmNewPassword.trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Please fill all the boxes before confirming");
+            alert.setHeaderText(language.getResourceBundle().getString("pleaseFillAllTheFields"));
             alert.showAndWait();
         } else {
             try {
@@ -44,7 +44,7 @@ public class ChangePasswordViewController {
                     throw new PasswordNotMatchingException();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-                    alert.setHeaderText("Are you sure you want to change your password?");
+                    alert.setHeaderText(language.getResourceBundle().getString("changePasswordConfirmation"));
                     alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.YES) {
                             ClientManager clientManager = ClientManager.getClients();
@@ -57,17 +57,26 @@ public class ChangePasswordViewController {
             }
             catch (WrongPasswordException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Incorrect Password");
-                alert.setContentText(e.getMessage());
+                alert.setHeaderText(language.getResourceBundle().getString("incorrectPassword"));
+                alert.setContentText(language.getResourceBundle().getString("wrongPasswordException"));
                 alert.showAndWait();
             }
             catch (PasswordNotMatchingException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Invalid Password!");
-                alert.setContentText(e.getMessage());
+                alert.setHeaderText(language.getResourceBundle().getString("invalidPassword"));
+                alert.setContentText(language.getResourceBundle().getString("passwordNotMatchingException"));
                 alert.showAndWait();
             }
         }
+    }
+
+    public void loadMessages() {
+        changePasswordLabel.setText(language.getResourceBundle().getString("changePassword"));
+        currentPasswordTextField.setPromptText(language.getResourceBundle().getString("currentPassword"));
+        newPasswordTextField.setPromptText(language.getResourceBundle().getString("newPassword"));
+        confirmNewPasswordTextField.setPromptText(language.getResourceBundle().getString("confirmNewPassword"));
+        confirmButton.setText(language.getResourceBundle().getString("confirm"));
+        cancelButton.setText(language.getResourceBundle().getString("cancel"));
     }
 
     public void getSessionClient(Client client) {

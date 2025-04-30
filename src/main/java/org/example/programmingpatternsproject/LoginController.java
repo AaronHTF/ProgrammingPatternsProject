@@ -2,16 +2,13 @@ package org.example.programmingpatternsproject;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController {
     @FXML
     public Button createAccountButton;
     @FXML
@@ -30,32 +27,27 @@ public class LoginController implements Initializable {
     private Label loginLabel;
 
     ClientManager clientManager = ClientManager.getClients();
-    Locale locale;
-    ResourceBundle resourceBundle;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
+    Language language = Language.getInstance();
 
     @FXML
     public void handleCreateAccountButtonAction() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createAccountView.fxml"));
         Stage stage = new Stage();
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Create Account");
+        CreateAccountController createAccountController = fxmlLoader.getController();
+        createAccountController.loadMessages();
+        stage.setTitle(language.getResourceBundle().getString("createAccount"));
         stage.setScene(scene);
         stage.show();
     }
 
-    @FXML
     public void handleLoginButtonAction() throws IOException {
         String userId = userIdTextField.getText();
         String password = passwordTextField.getText();
 
         if (userId.trim().isEmpty() || password.trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Please fill all the fields!");
+            alert.setHeaderText(language.getResourceBundle().getString("pleaseFillAllTheFields"));
             alert.showAndWait();
         } else {
             try {
@@ -67,7 +59,7 @@ public class LoginController implements Initializable {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("adminView.fxml"));
                         Stage stage = new Stage();
                         Scene scene = new Scene(fxmlLoader.load());
-                        stage.setTitle("Airline Management System");
+                        stage.setTitle(language.getResourceBundle().getString("title"));
                         stage.setScene(scene);
                         stage.show();
                         Stage thisStage = (Stage) loginButton.getScene().getWindow();
@@ -83,7 +75,8 @@ public class LoginController implements Initializable {
                         Scene scene = new Scene(fxmlLoader.load());
                         ClientViewController clientViewController = fxmlLoader.getController();
                         clientViewController.loadClient(client);
-                        stage.setTitle("Airline Management System");
+                        clientViewController.loadMessages();
+                        stage.setTitle(language.getResourceBundle().getString("title"));
                         stage.setScene(scene);
                         stage.show();
                         Stage thisStage = (Stage) loginButton.getScene().getWindow();
@@ -93,21 +86,21 @@ public class LoginController implements Initializable {
             }
             catch (ClientNotFoundException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("User ID error!");
-                alert.setContentText(e.getMessage());
+                alert.setHeaderText(language.getResourceBundle().getString("userIdError"));
+                alert.setContentText(language.getResourceBundle().getString("clientNotFoundException"));
                 alert.showAndWait();
             }
             catch (WrongPasswordException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Incorrect Password");
-                alert.setContentText(e.getMessage());
+                alert.setHeaderText(language.getResourceBundle().getString("incorrectPassword"));
+                alert.setContentText(language.getResourceBundle().getString("wrongPasswordException"));
                 alert.showAndWait();
             }
 
         }
     }
 
-    public void changeLanguage(Locale locale, ResourceBundle resourceBundle) {
+    public void changeLanguage(ResourceBundle resourceBundle) {
         frenchButton.setText(resourceBundle.getString("french"));
         englishButton.setText(resourceBundle.getString("english"));
         titleLabel.setText(resourceBundle.getString("title"));
@@ -123,16 +116,14 @@ public class LoginController implements Initializable {
     public void handleEnglishButtonAction() {
         frenchButton.setDisable(false);
         englishButton.setDisable(true);
-        locale = Locale.of("en", "US");
-        resourceBundle = ResourceBundle.getBundle("Messages", locale);
-        changeLanguage(locale, resourceBundle);
+        language.changeToEnglish();
+        changeLanguage(language.getResourceBundle());
     }
 
     public void handleFrenchButtonAction() {
         englishButton.setDisable(false);
         frenchButton.setDisable(true);
-        locale = Locale.of("fr", "CA");
-        resourceBundle = ResourceBundle.getBundle("Messages", locale);
-        changeLanguage(locale, resourceBundle);
+        language.changeToFrench();
+        changeLanguage(language.getResourceBundle());
     }
 }

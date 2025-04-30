@@ -6,24 +6,24 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="481.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programmingpatternsproject.ClientViewController">
+<AnchorPane prefHeight="481.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programmingpatternsproject.ClientViewController">
    <children>
-      <TableView fx:id="bookedFlightsTable" layoutX="56.0" layoutY="150.0" prefHeight="200.0" prefWidth="607.0">
+      <TableView fx:id="bookedFlightsTable" layoutX="33.0" layoutY="150.0" prefHeight="200.0" prefWidth="607.0">
         <columns>
-            <TableColumn fx:id="ticketIdColumn" prefWidth="103.0" text="Ticket Number" />
-          <TableColumn fx:id="sourceColumn" prefWidth="102.0" text="From" />
-          <TableColumn fx:id="destinationColumn" prefWidth="105.0" text="To" />
+            <TableColumn fx:id="ticketIdColumn" prefWidth="113.0" text="Ticket Number" />
+          <TableColumn fx:id="sourceColumn" prefWidth="105.0" text="From" />
+          <TableColumn fx:id="destinationColumn" prefWidth="92.0" text="To" />
             <TableColumn fx:id="dateColumn" prefWidth="82.0" text="Date" />
             <TableColumn fx:id="classOfServiceColumn" prefWidth="124.0" text="Class of Service" />
             <TableColumn fx:id="statusColumn" minWidth="7.0" prefWidth="89.0" text="Status" />
         </columns>
       </TableView>
-      <Button fx:id="logoutButton" layoutX="696.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="30.0" prefWidth="77.0" text="Logout" />
-      <Button fx:id="changePasswordButton" layoutX="644.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleChangePasswordButtonAction" prefHeight="30.0" prefWidth="129.0" text="Change Password" />
-      <Button fx:id="cancelFlightButton" layoutX="677.0" layoutY="156.0" mnemonicParsing="false" onAction="#handleDeleteFlightButtonAction" text="Cancel Flight" />
-      <Button fx:id="changeDateButton" layoutX="677.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleChangeDateButtonAction" text="Change Date" />
-      <Button fx:id="bookFlightButton" layoutX="33.0" layoutY="111.0" mnemonicParsing="false" onAction="#handleBookFlightButtonAction" text="Book a flight" />
-      <Label fx:id="usernameLabel" layoutX="33.0" layoutY="36.0" text="Username: " />
-      <Label fx:id="userIdLabel" layoutX="33.0" layoutY="62.0" text="User ID: " />
+      <Button fx:id="logoutButton" layoutX="730.0" layoutY="16.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="30.0" prefWidth="77.0" text="Logout" />
+      <Button fx:id="changePasswordButton" layoutX="678.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleChangePasswordButtonAction" prefHeight="30.0" prefWidth="129.0" text="Change Password" />
+      <Button fx:id="cancelFlightButton" layoutX="672.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleDeleteFlightButtonAction" prefHeight="25.0" prefWidth="129.0" text="Cancel Flight" />
+      <Button fx:id="changeDateButton" layoutX="672.0" layoutY="196.0" mnemonicParsing="false" onAction="#handleChangeDateButtonAction" prefHeight="25.0" prefWidth="129.0" text="Change Date" />
+      <Button fx:id="bookFlightButton" layoutX="33.0" layoutY="111.0" mnemonicParsing="false" onAction="#handleBookFlightButtonAction" prefHeight="25.0" prefWidth="129.0" text="Book a flight" />
+      <Label fx:id="usernameLabel" layoutX="22.0" layoutY="14.0" prefHeight="17.0" prefWidth="163.0" text="Username: " />
+      <Label fx:id="userIdLabel" layoutX="22.0" layoutY="36.0" prefHeight="17.0" prefWidth="163.0" text="User ID: " />
    </children>
 </AnchorPane>

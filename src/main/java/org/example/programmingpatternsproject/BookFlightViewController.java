@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class BookFlightViewController implements Initializable {
     @FXML
@@ -26,9 +25,16 @@ public class BookFlightViewController implements Initializable {
     private ChoiceBox<String> classOfServiceChoiceBox;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private Label fromLabel;
+    @FXML
+    private Label toLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label classOfServiceLabel;
 
     private ClientViewController controller;
-
     Client sessionClient;
     ArrayList<Flight> flights;
     HashSet<String> sourceList;
@@ -38,26 +44,26 @@ public class BookFlightViewController implements Initializable {
     String classOfService;
     LocalDate date;
     Database db = Database.getInstance();
+    Language language = Language.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadChoiceBoxes();
     }
 
-    @FXML
     public void handleConfirmButtonAction() {
         if (source == null || destination == null || classOfService == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Please fill all the boxes before confirming");
+            alert.setHeaderText(language.getResourceBundle().getString("fillBoxes"));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-            alert.setHeaderText("Confirm Flight");
-            alert.setContentText("Book a flight" +
-                    "\nFrom " + source +
-                    "\nTo " + destination +
-                    "\nDate: " + date +
-                    "\nClass: " + classOfService);
+            alert.setHeaderText(language.getResourceBundle().getString("confirmFlight"));
+            alert.setContentText(language.getResourceBundle().getString("bookAFlight") +
+                    "\n" + language.getResourceBundle().getString("from") + " " + source +
+                    "\n" + language.getResourceBundle().getString("to") + " " + destination +
+                    "\n" + language.getResourceBundle().getString("date") + " " + date +
+                    "\n" + language.getResourceBundle().getString("classOfService") + " " + classOfService);
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.YES) {
                     TicketManager ticketManager = TicketManager.getTickets();
@@ -77,7 +83,6 @@ public class BookFlightViewController implements Initializable {
         }
     }
 
-    @FXML
     public void handleCancelButtonAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
@@ -134,6 +139,15 @@ public class BookFlightViewController implements Initializable {
         destinationChoiceBox.setOnAction(this::selectDestination);
         datePicker.setOnAction(this::selectDate);
         classOfServiceChoiceBox.setOnAction(this::selectClassOfService);
+    }
+
+    public void loadMessages() {
+        fromLabel.setText(language.getResourceBundle().getString("from"));
+        toLabel.setText(language.getResourceBundle().getString("to"));
+        dateLabel.setText(language.getResourceBundle().getString("date"));
+        classOfServiceLabel.setText(language.getResourceBundle().getString("classOfService"));
+        cancelButton.setText(language.getResourceBundle().getString("cancel"));
+        confirmButton.setText(language.getResourceBundle().getString("confirm"));
     }
 
     public void setParentController(ClientViewController controller) {

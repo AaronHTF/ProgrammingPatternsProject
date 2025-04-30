@@ -35,10 +35,19 @@ public class ClientViewController implements Initializable {
     private TableColumn<TicketInformation, String> classOfServiceColumn;
     @FXML
     private TableColumn<TicketInformation, String> statusColumn;
+    @FXML
+    private Button bookFlightButton;
+    @FXML
+    private Button cancelFlightButton;
+    @FXML
+    private Button changeDateButton;
+    @FXML
+    private Button changePasswordButton;
 
     Client sessionClient;
     ObservableList<TicketInformation> tickets;
     ArrayList<TicketInformation> ticketsInformation;
+    Language language = Language.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,13 +61,11 @@ public class ClientViewController implements Initializable {
 
     public void loadClient(Client client) {
         sessionClient = client;
-        usernameLabel.setText(usernameLabel.getText() + client.getClientName());
-        userIdLabel.setText(userIdLabel.getText() + client.getUserId());
         loadTableContent();
     }
 
     public void loadTableContent() {
-        bookedFlightsTable.setPlaceholder(new Label("You do not have any flights booked currently"));
+        bookedFlightsTable.setPlaceholder(new Label(language.getResourceBundle().getString("noBookedFlights")));
         ArrayList<Ticket> clientTickets = sessionClient.getTickets();
         ticketsInformation = new ArrayList<>();
         for (Ticket ticket : clientTickets) {
@@ -78,8 +85,9 @@ public class ClientViewController implements Initializable {
         Scene scene = new Scene(fxmlLoader.load());
         BookFlightViewController bookFlightViewController = fxmlLoader.getController();
         bookFlightViewController.loadClient(sessionClient);
+        bookFlightViewController.loadMessages();
         bookFlightViewController.setParentController(this);
-        stage.setTitle("Book a Flight");
+        stage.setTitle(language.getResourceBundle().getString("bookAFlight"));
         stage.setScene(scene);
         stage.show();
     }
@@ -87,11 +95,11 @@ public class ClientViewController implements Initializable {
     public void handleDeleteFlightButtonAction() {
         if (bookedFlightsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Please select a flight");
+            alert.setHeaderText(language.getResourceBundle().getString("chooseAFlight"));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.YES, ButtonType.NO);
-            alert.setHeaderText("Are you sure you want to cancel this flight?");
+            alert.setHeaderText(language.getResourceBundle().getString("cancelFlightConfirmation"));
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.YES) {
                     int id = bookedFlightsTable.getSelectionModel().getSelectedItem().getTicketId();
@@ -106,7 +114,7 @@ public class ClientViewController implements Initializable {
     public void handleChangeDateButtonAction() throws IOException {
         if (bookedFlightsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Please select a flight");
+            alert.setHeaderText(language.getResourceBundle().getString("chooseAFlight"));
             alert.showAndWait();
         } else {
             int id = bookedFlightsTable.getSelectionModel().getSelectedItem().getTicketId();
@@ -117,8 +125,9 @@ public class ClientViewController implements Initializable {
             Scene scene = new Scene(fxmlLoader.load());
             ChangeDateViewController changeDateViewController = fxmlLoader.getController();
             changeDateViewController.loadDate(ticket);
+            changeDateViewController.loadMessages();
             changeDateViewController.setParentController(this);
-            stage.setTitle("Change date");
+            stage.setTitle(language.getResourceBundle().getString("changeDate"));
             stage.setScene(scene);
             stage.show();
         }
@@ -130,21 +139,22 @@ public class ClientViewController implements Initializable {
         Scene scene = new Scene(fxmlLoader.load());
         ChangePasswordViewController changePasswordViewController = fxmlLoader.getController();
         changePasswordViewController.getSessionClient(sessionClient);
-        stage.setTitle("Change password");
+        changePasswordViewController.loadMessages();
+        stage.setTitle(language.getResourceBundle().getString("changePassword"));
         stage.setScene(scene);
         stage.show();
     }
 
     public void handleLogoutButtonAction() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);
-        alert.setHeaderText("Logging out");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.getResourceBundle().getString("logoutConfirmation"), ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText(language.getResourceBundle().getString("loggingOut"));
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("loginView.fxml"));
                     Stage stage = new Stage();
                     Scene scene = new Scene(fxmlLoader.load());
-                    stage.setTitle("Airline System Login");
+                    stage.setTitle(language.getResourceBundle().getString("title"));
                     stage.setScene(scene);
                     stage.show();
                     Stage thisStage = (Stage) logoutButton.getScene().getWindow();
@@ -155,5 +165,21 @@ public class ClientViewController implements Initializable {
                 }
             }
         });
+    }
+
+    public void loadMessages() {
+        usernameLabel.setText(language.getResourceBundle().getString("username") + ": " + sessionClient.getClientName());
+        userIdLabel.setText(language.getResourceBundle().getString("userId") + ": " + sessionClient.getUserId());
+        logoutButton.setText(language.getResourceBundle().getString("logout"));
+        bookFlightButton.setText(language.getResourceBundle().getString("bookAFlight"));
+        ticketIdColumn.setText(language.getResourceBundle().getString("ticketNumber"));
+        sourceColumn.setText(language.getResourceBundle().getString("from"));
+        destinationColumn.setText(language.getResourceBundle().getString("to"));
+        dateColumn.setText(language.getResourceBundle().getString("date"));
+        classOfServiceColumn.setText(language.getResourceBundle().getString("classOfService"));
+        statusColumn.setText(language.getResourceBundle().getString("status"));
+        cancelFlightButton.setText(language.getResourceBundle().getString("cancelFlight"));
+        changeDateButton.setText(language.getResourceBundle().getString("changeDate"));
+        changePasswordButton.setText(language.getResourceBundle().getString("changePassword"));
     }
 }

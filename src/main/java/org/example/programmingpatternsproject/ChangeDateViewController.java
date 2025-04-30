@@ -13,11 +13,12 @@ public class ChangeDateViewController {
     private Button confirmButton;
     @FXML
     private DatePicker datePicker;
+    @FXML
+    private Label changeDateLabel;
 
     ClientViewController controller;
     Ticket ticket;
-
-
+    Language language = Language.getInstance();
 
     public void loadDate(Ticket ticket) {
         LocalDate minDate = LocalDate.now();
@@ -34,10 +35,9 @@ public class ChangeDateViewController {
         datePicker.setValue(LocalDate.parse(ticket.getDate()));
     }
 
-    @FXML
     public void handleConfirmButtonAction() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-        alert.setHeaderText("Are you sure you want to change the date?");
+        alert.setHeaderText(language.getResourceBundle().getString("changeDateConfirmation"));
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 TicketManager ticketManager = TicketManager.getTickets();
@@ -49,7 +49,6 @@ public class ChangeDateViewController {
         });
     }
 
-    @FXML
     public void handleCancelButtonAction() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
@@ -57,5 +56,11 @@ public class ChangeDateViewController {
 
     public void setParentController(ClientViewController controller) {
         this.controller = controller;
+    }
+
+    public void loadMessages() {
+        changeDateLabel.setText(language.getResourceBundle().getString("changeDate"));
+        cancelButton.setText(language.getResourceBundle().getString("cancel"));
+        confirmButton.setText(language.getResourceBundle().getString("confirm"));
     }
 }
