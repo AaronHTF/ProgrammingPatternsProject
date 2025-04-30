@@ -59,6 +59,8 @@ public class LoginController {
                         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("adminView.fxml"));
                         Stage stage = new Stage();
                         Scene scene = new Scene(fxmlLoader.load());
+                        AdminViewController adminViewController = fxmlLoader.getController();
+                        adminViewController.loadMessages();
                         stage.setTitle(language.getResourceBundle().getString("title"));
                         stage.setScene(scene);
                         stage.show();

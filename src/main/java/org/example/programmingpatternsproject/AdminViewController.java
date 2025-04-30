@@ -36,6 +36,16 @@ public class AdminViewController implements Initializable {
     @FXML
     private TableColumn<Ticket, String> statusColumn;
     @FXML
+    private Button filterByFlightButton;
+    @FXML
+    private Button sortByDateButton;
+    @FXML
+    private Button confirmTicket;
+    @FXML
+    private Button denyTicket;
+    @FXML
+    private Button resetFiltersButton;
+    @FXML
     private ChoiceBox<String> sourceChoiceBox;
     @FXML
     private ChoiceBox<String> destinationChoiceBox;
@@ -43,6 +53,14 @@ public class AdminViewController implements Initializable {
     private ChoiceBox<String> statusChoiceBox;
     @FXML
     private ChoiceBox<String> classChoiceBox;
+    @FXML
+    private Label sourceLabel;
+    @FXML
+    private Label destinationLabel;
+    @FXML
+    private Label filterByStatusLabel;
+    @FXML
+    private Label filterByClassLabel;
 
     TicketManager ticketManager = TicketManager.getTickets();
     ObservableList<Ticket> tickets;
@@ -50,6 +68,7 @@ public class AdminViewController implements Initializable {
     ArrayList<Flight> flights;
     HashSet<String> sourceList;
     HashSet<String> destinationList;
+    Language language = Language.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,7 +87,7 @@ public class AdminViewController implements Initializable {
         String destination = destinationChoiceBox.getValue();
         if (source == null && destination == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Please choose a Source and/or Destination");
+            alert.setHeaderText(language.getResourceBundle().getString("chooseSourceAndDestination"));
             alert.showAndWait();
         } else if (source == null) {
             tickets = FXCollections.observableArrayList(ticketManager.filterByDestination(destination));
@@ -97,11 +116,11 @@ public class AdminViewController implements Initializable {
     public void handleConfirmTicketButtonAction() {
         if (ticketsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Please select a ticket");
+            alert.setHeaderText(language.getResourceBundle().getString("selectATicket"));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-            alert.setHeaderText("Confirm this flight ticket?");
+            alert.setHeaderText(language.getResourceBundle().getString("confirmFlightTicket"));
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.YES) {
                     ticketManager.confirmTicket(ticketsTable.getSelectionModel().getSelectedItem());
@@ -115,11 +134,11 @@ public class AdminViewController implements Initializable {
     public void handleDenyTicketButtonAction() {
         if (ticketsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Please select a ticket");
+            alert.setHeaderText(language.getResourceBundle().getString("selectATicket"));
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.NO);
-            alert.setHeaderText("Deny this flight ticket?");
+            alert.setHeaderText(language.getResourceBundle().getString("denyFlightTicket"));
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.YES) {
                     ticketManager.deny(ticketsTable.getSelectionModel().getSelectedItem());
@@ -189,15 +208,15 @@ public class AdminViewController implements Initializable {
     }
 
     public void handleLogoutButtonAction() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO);
-        alert.setHeaderText("Logging out");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, language.getResourceBundle().getString("logoutConfirmation"), ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText(language.getResourceBundle().getString("loggingOut"));
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.YES) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("loginView.fxml"));
                     Stage stage = new Stage();
                     Scene scene = new Scene(fxmlLoader.load());
-                    stage.setTitle("Airline System Login");
+                    stage.setTitle(language.getResourceBundle().getString("title"));
                     stage.setScene(scene);
                     stage.show();
                     Stage thisStage = (Stage) logoutButton.getScene().getWindow();
@@ -208,5 +227,24 @@ public class AdminViewController implements Initializable {
                 }
             }
         });
+    }
+
+    public void loadMessages() {
+        filterByFlightButton.setText(language.getResourceBundle().getString("filterByFlight"));
+        sourceLabel.setText(language.getResourceBundle().getString("source"));
+        destinationLabel.setText(language.getResourceBundle().getString("destination"));
+        filterByStatusLabel.setText(language.getResourceBundle().getString("filterByStatus"));
+        filterByClassLabel.setText(language.getResourceBundle().getString("filterByClass"));
+        logoutButton.setText(language.getResourceBundle().getString("logout"));
+        ticketIdColumn.setText(language.getResourceBundle().getString("ticketId"));
+        clientIdColumn.setText(language.getResourceBundle().getString("clientId"));
+        flightIdColumn.setText(language.getResourceBundle().getString("flightId"));
+        dateColumn.setText(language.getResourceBundle().getString("date"));
+        classOfServiceColumn.setText(language.getResourceBundle().getString("classOfService"));
+        statusColumn.setText(language.getResourceBundle().getString("status"));
+        sortByDateButton.setText(language.getResourceBundle().getString("sortByDate"));
+        confirmTicket.setText(language.getResourceBundle().getString("confirmTicket"));
+        denyTicket.setText(language.getResourceBundle().getString("denyTicket"));
+        resetFiltersButton.setText(language.getResourceBundle().getString("resetFilters"));
     }
 }

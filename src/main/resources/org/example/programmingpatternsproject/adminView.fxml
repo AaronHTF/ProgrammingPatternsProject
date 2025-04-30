@@ -25,9 +25,9 @@
       <ChoiceBox fx:id="destinationChoiceBox" layoutX="205.0" layoutY="90.0" prefWidth="150.0" />
       <Label fx:id="destinationLabel" layoutX="205.0" layoutY="66.0" text="Destination" />
       <Button fx:id="filterByFlightButton" layoutX="33.0" layoutY="27.0" mnemonicParsing="false" onAction="#handleFilterByFlightButtonAction" prefHeight="25.0" prefWidth="136.0" text="Filter by Flight" />
-      <Label layoutX="379.0" layoutY="66.0" text="Filter by Status" />
+      <Label fx:id="filterByStatusLabel" layoutX="379.0" layoutY="66.0" text="Filter by Status" />
       <ChoiceBox fx:id="statusChoiceBox" layoutX="379.0" layoutY="90.0" prefWidth="150.0" />
-      <Label layoutX="556.0" layoutY="66.0" text="Filter by Class" />
+      <Label fx:id="filterByClassLabel" layoutX="556.0" layoutY="66.0" text="Filter by Class" />
       <ChoiceBox fx:id="classChoiceBox" layoutX="556.0" layoutY="90.0" prefWidth="150.0" />
       <Button fx:id="sortByDateButton" layoutX="740.0" layoutY="132.0" mnemonicParsing="false" onAction="#handleSortByDateButtonAction" prefHeight="25.0" prefWidth="136.0" text="Sort by Date" />
       <Button fx:id="confirmTicket" layoutX="740.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleConfirmTicketButtonAction" prefHeight="25.0" prefWidth="136.0" text="Confirm TIcket" />
