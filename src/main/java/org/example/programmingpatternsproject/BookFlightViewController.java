@@ -26,6 +26,8 @@ public class BookFlightViewController implements Initializable {
     @FXML
     private DatePicker datePicker;
     @FXML
+    private Label titleLabel;
+    @FXML
     private Label fromLabel;
     @FXML
     private Label toLabel;
@@ -142,6 +144,7 @@ public class BookFlightViewController implements Initializable {
     }
 
     public void loadMessages() {
+        titleLabel.setText(language.getResourceBundle().getString("bookAFlight"));
         fromLabel.setText(language.getResourceBundle().getString("from"));
         toLabel.setText(language.getResourceBundle().getString("to"));
         dateLabel.setText(language.getResourceBundle().getString("date"));
