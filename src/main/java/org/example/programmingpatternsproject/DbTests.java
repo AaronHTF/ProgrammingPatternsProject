@@ -8,10 +8,6 @@ public class DbTests {
         ClientManager clientManager = ClientManager.getClients();
         TicketManager ticketManager = TicketManager.getTickets();
 
-        //fetch clients from database
-        clientManager.loadClientsFromDatabase();
-        ticketManager.loadTicketsFromDatabase();
-
         //create clients table
 //        db.createNewTable("clients", "clientId", "TEXT");
 //        db.addColumn("clients", "password", "TEXT");

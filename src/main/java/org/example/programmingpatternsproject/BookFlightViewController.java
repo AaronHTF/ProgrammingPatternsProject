@@ -14,27 +14,13 @@ import java.util.ResourceBundle;
 
 public class BookFlightViewController implements Initializable {
     @FXML
-    private Button cancelButton;
+    private Button cancelButton, confirmButton;
     @FXML
-    private Button confirmButton;
-    @FXML
-    private ChoiceBox<String> sourceChoiceBox;
-    @FXML
-    private ChoiceBox<String> destinationChoiceBox;
-    @FXML
-    private ChoiceBox<String> classOfServiceChoiceBox;
+    private ChoiceBox<String> sourceChoiceBox, destinationChoiceBox, classOfServiceChoiceBox;
     @FXML
     private DatePicker datePicker;
     @FXML
-    private Label titleLabel;
-    @FXML
-    private Label fromLabel;
-    @FXML
-    private Label toLabel;
-    @FXML
-    private Label dateLabel;
-    @FXML
-    private Label classOfServiceLabel;
+    private Label titleLabel, fromLabel, toLabel, dateLabel, classOfServiceLabel;
 
     private ClientViewController controller;
     Client sessionClient;

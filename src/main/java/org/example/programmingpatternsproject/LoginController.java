@@ -10,26 +10,17 @@ import java.util.ResourceBundle;
 
 public class LoginController {
     @FXML
-    public Button createAccountButton;
-    @FXML
-    private Button loginButton;
-    @FXML
     private TextField userIdTextField;
     @FXML
     private PasswordField passwordTextField;
     @FXML
-    private Button englishButton;
+    private Button englishButton, frenchButton, loginButton, createAccountButton;
     @FXML
-    private Button frenchButton;
-    @FXML
-    private Label titleLabel;
-    @FXML
-    private Label loginLabel;
+    private Label titleLabel, loginLabel;
 
     ClientManager clientManager = ClientManager.getClients();
     Language language = Language.getInstance();
 
-    @FXML
     public void handleCreateAccountButtonAction() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createAccountView.fxml"));
         Stage stage = new Stage();

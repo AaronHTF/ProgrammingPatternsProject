@@ -20,47 +20,17 @@ import java.util.ResourceBundle;
 
 public class AdminViewController implements Initializable {
     @FXML
-    private Button logoutButton;
+    private Button logoutButton, filterByFlightButton, sortByDateButton, confirmTicket, denyTicket, resetFiltersButton;
     @FXML
     private TableView<Ticket> ticketsTable;
     @FXML
     private TableColumn<Ticket, Integer> ticketIdColumn;
     @FXML
-    private TableColumn<Ticket, String> clientIdColumn;
+    private TableColumn<Ticket, String> clientIdColumn, flightIdColumn, dateColumn, classOfServiceColumn, statusColumn;
     @FXML
-    private TableColumn<Ticket, String> flightIdColumn;
+    private ChoiceBox<String> sourceChoiceBox, destinationChoiceBox, statusChoiceBox, classChoiceBox;
     @FXML
-    private TableColumn<Ticket, String> dateColumn;
-    @FXML
-    private TableColumn<Ticket, String> classOfServiceColumn;
-    @FXML
-    private TableColumn<Ticket, String> statusColumn;
-    @FXML
-    private Button filterByFlightButton;
-    @FXML
-    private Button sortByDateButton;
-    @FXML
-    private Button confirmTicket;
-    @FXML
-    private Button denyTicket;
-    @FXML
-    private Button resetFiltersButton;
-    @FXML
-    private ChoiceBox<String> sourceChoiceBox;
-    @FXML
-    private ChoiceBox<String> destinationChoiceBox;
-    @FXML
-    private ChoiceBox<String> statusChoiceBox;
-    @FXML
-    private ChoiceBox<String> classChoiceBox;
-    @FXML
-    private Label sourceLabel;
-    @FXML
-    private Label destinationLabel;
-    @FXML
-    private Label filterByStatusLabel;
-    @FXML
-    private Label filterByClassLabel;
+    private Label sourceLabel, destinationLabel, filterByStatusLabel, filterByClassLabel;
 
     TicketManager ticketManager = TicketManager.getTickets();
     ObservableList<Ticket> tickets;
@@ -156,29 +126,36 @@ public class AdminViewController implements Initializable {
 
     public void handleResetFiltersButtonAction() {
         ticketManager.reloadTickets();
+        sourceChoiceBox.getItems().clear();
+        destinationChoiceBox.getItems().clear();
+        loadChoiceBoxes();
         setTableContent();
     }
 
     public void chooseSource(ActionEvent event) {
-        String source = sourceChoiceBox.getValue();
-        destinationList = new HashSet<>();
-        for (Flight flight : flights) {
-            if (flight.getSource().equals(source)) {
-                destinationList.add(flight.getDestination());
+        if (destinationChoiceBox.getValue() == null) {
+            String source = sourceChoiceBox.getValue();
+            destinationList = new HashSet<>();
+            for (Flight flight : flights) {
+                if (flight.getSource().equals(source)) {
+                    destinationList.add(flight.getDestination());
+                }
             }
+            destinationChoiceBox.getItems().setAll(destinationList);
         }
-        destinationChoiceBox.getItems().setAll(destinationList);
     }
 
     public void chooseDestination(ActionEvent event) {
-        String destination = destinationChoiceBox.getValue();
-        sourceList = new HashSet<>();
-        for (Flight flight : flights) {
-            if (flight.getDestination().equals(destination)) {
-                sourceList.add(flight.getSource());
+        if (sourceChoiceBox.getValue() == null) {
+            String destination = destinationChoiceBox.getValue();
+            sourceList = new HashSet<>();
+            for (Flight flight : flights) {
+                if (flight.getDestination().equals(destination)) {
+                    sourceList.add(flight.getSource());
+                }
             }
+            sourceChoiceBox.getItems().setAll(sourceList);
         }
-        sourceChoiceBox.getItems().setAll(sourceList);
     }
 
     public void setTableContent() {

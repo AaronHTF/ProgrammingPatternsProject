@@ -7,15 +7,9 @@ import javafx.stage.Stage;
 
 public class ChangePasswordViewController {
     @FXML
-    private PasswordField currentPasswordTextField;
+    private PasswordField currentPasswordTextField, newPasswordTextField, confirmNewPasswordTextField;
     @FXML
-    private PasswordField newPasswordTextField;
-    @FXML
-    private PasswordField confirmNewPasswordTextField;
-    @FXML
-    private Button cancelButton;
-    @FXML
-    private Button confirmButton;
+    private Button cancelButton, confirmButton;
     @FXML
     private Label changePasswordLabel;
 

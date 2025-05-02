@@ -16,33 +16,15 @@ import java.util.ResourceBundle;
 
 public class ClientViewController implements Initializable {
     @FXML
-    private Button logoutButton;
+    private Button logoutButton, bookFlightButton, cancelFlightButton, changeDateButton, changePasswordButton;
     @FXML
-    private Label usernameLabel;
-    @FXML
-    private Label userIdLabel;
+    private Label usernameLabel, userIdLabel;
     @FXML
     private TableView<TicketInformation> bookedFlightsTable;
     @FXML
     private TableColumn<TicketInformation, Integer> ticketIdColumn;
     @FXML
-    private TableColumn<TicketInformation, String> sourceColumn;
-    @FXML
-    private TableColumn<TicketInformation, String> destinationColumn;
-    @FXML
-    private TableColumn<TicketInformation, String> dateColumn;
-    @FXML
-    private TableColumn<TicketInformation, String> classOfServiceColumn;
-    @FXML
-    private TableColumn<TicketInformation, String> statusColumn;
-    @FXML
-    private Button bookFlightButton;
-    @FXML
-    private Button cancelFlightButton;
-    @FXML
-    private Button changeDateButton;
-    @FXML
-    private Button changePasswordButton;
+    private TableColumn<TicketInformation, String> sourceColumn, destinationColumn, dateColumn, classOfServiceColumn, statusColumn;
 
     Client sessionClient;
     ObservableList<TicketInformation> tickets;

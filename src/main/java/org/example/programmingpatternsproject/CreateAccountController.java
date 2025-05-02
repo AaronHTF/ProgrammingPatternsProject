@@ -6,15 +6,11 @@ import javafx.stage.Stage;
 
 public class CreateAccountController {
     @FXML
-    private Button cancelButton;
+    private Button cancelButton, createAccountButton;
     @FXML
     private TextField usernameTextField;
     @FXML
-    public PasswordField passwordTextField;
-    @FXML
-    private PasswordField confirmPasswordTextField;
-    @FXML
-    private Button createAccountButton;
+    public PasswordField passwordTextField, confirmPasswordTextField;
     @FXML
     private Label enterAccountDetailsLabel;
 

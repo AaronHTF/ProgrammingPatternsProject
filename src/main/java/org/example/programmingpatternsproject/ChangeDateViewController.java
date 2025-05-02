@@ -8,9 +8,7 @@ import java.time.LocalDate;
 
 public class ChangeDateViewController {
     @FXML
-    private Button cancelButton;
-    @FXML
-    private Button confirmButton;
+    private Button cancelButton, confirmButton;
     @FXML
     private DatePicker datePicker;
     @FXML
