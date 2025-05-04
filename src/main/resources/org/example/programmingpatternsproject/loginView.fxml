@@ -13,7 +13,7 @@
       <PasswordField fx:id="passwordTextField" layoutX="298.0" layoutY="237.0" prefHeight="25.0" prefWidth="216.0" promptText="Password" />
       <Button fx:id="loginButton" alignment="CENTER" layoutX="339.0" layoutY="280.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="37.0" prefWidth="135.0" text="Login" />
       <Button fx:id="createAccountButton" layoutX="635.0" layoutY="448.0" mnemonicParsing="false" onAction="#handleCreateAccountButtonAction" prefHeight="25.0" prefWidth="161.0" text="Create Account" />
-      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="138.0" layoutY="66.0" prefHeight="76.0" prefWidth="537.0" text="Airline Management System" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="135.0">
+      <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="138.0" layoutY="66.0" prefHeight="76.0" prefWidth="537.0" text="Airline Reservation System" AnchorPane.leftAnchor="138.0" AnchorPane.rightAnchor="135.0">
          <font>
             <Font name="Arial Bold" size="20.0" />
          </font></Label>
