@@ -1,3 +1,9 @@
+// -------------------------------------------------------
+// Final Project
+//        Written by: Aaron Ho Tim Fat (2314854)
+//        For “Programming Patterns” Section 2 – Winter 2025
+// --------------------------------------------------------
+
 package org.example.programmingpatternsproject;
 
 import javafx.application.Application;
